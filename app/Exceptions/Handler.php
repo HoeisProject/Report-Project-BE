@@ -2,8 +2,10 @@
 
 namespace App\Exceptions;
 
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ReportStatusController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use App\Traits\HttpResponses;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
@@ -37,10 +39,12 @@ class Handler extends ExceptionHandler
         $this->renderable(function (NotFoundHttpException $e, Request $req) {
             if ($req->is('*/' . ReportStatusController::route . '/*'))
                 return $this->notFound('Report status data not found');
-        });
-        $this->renderable(function (NotFoundHttpException $e, Request $req) {
             if ($req->is('*/' . RoleController::route . '/*'))
                 return $this->notFound('Role data not found');
+            if ($req->is('*/' . ProjectController::route . '/*'))
+                return $this->notFound('Project data not found');
+            if ($req->is('*/' . UserController::route . '/*'))
+                return $this->notFound('User data not found');
         });
     }
 }

@@ -2,18 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Project;
+use App\Models\User;
+use App\Data\UserData;
+use App\Traits\HttpResponses;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
-class ProjectController extends Controller
+class UserController extends Controller
 {
-    const route = 'project';
+    use HttpResponses;
+
+    const route = 'user';
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        // return User::find(1)->projects->toArray();
+        (array) $data = UserData::collection(User::all())->toArray();
+        return $this->success($data, null, Response::HTTP_OK);
     }
 
     /**
@@ -27,7 +36,7 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Project $project)
+    public function show(string $id)
     {
         //
     }
@@ -35,7 +44,7 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Project $project)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -43,7 +52,7 @@ class ProjectController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Project $project)
+    public function destroy(string $id)
     {
         //
     }
