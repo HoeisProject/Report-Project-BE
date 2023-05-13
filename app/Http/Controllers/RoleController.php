@@ -2,25 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Data\RoleData;
 use App\Models\Role;
+use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class RoleController extends Controller
 {
+    use HttpResponses;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        (array) $data = RoleData::collection(Role::all())->toArray();
+        return $this->success($data, null, Response::HTTP_OK);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RoleData $request)
     {
-        //
+        (array) $data = Role::create($request->all());
+        return $this->success($data, 'Role successfully created', Response::HTTP_OK);
     }
 
     /**
@@ -28,15 +34,21 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        //
+        (array) $data = RoleData::from($role)->toArray();
+        return $this->success($data, null, Response::HTTP_OK);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Role $role)
+    public function update(RoleData $request, Role $role)
     {
-        //
+        (bool) $isSuccess = $role->update($request->all());
+        (array) $data = RoleData::from($role)->toArray();
+        if ($isSuccess)
+            return $this->success($data, 'Role successfully updated', Response::HTTP_NO_CONTENT);
+
+        return $this->error($data, 'Role failed updated', Response::HTTP_BAD_REQUEST);
     }
 
     /**
@@ -44,6 +56,14 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        //
+        // (bool) $isSuccess = $role->delete();
+
+        // if ($isSuccess) {
+        //     (array) $data = RoleData::from($role)->toArray();
+        //     return $this->success($data, 'Role successfully deleted', Response::HTTP_OK);
+        // } else
+        //     return $this->error(null, 'Role failed updated', Response::HTTP_BAD_REQUEST);
+
+        return $this->error(null, 'Role cannot be deleted', Response::HTTP_BAD_REQUEST);
     }
 }
