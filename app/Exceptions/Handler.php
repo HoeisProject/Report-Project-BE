@@ -2,6 +2,8 @@
 
 namespace App\Exceptions;
 
+use App\Http\Controllers\ReportStatusController;
+use App\Http\Controllers\RoleController;
 use App\Traits\HttpResponses;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
@@ -33,8 +35,12 @@ class Handler extends ExceptionHandler
 
         // https://laraveldaily.com/post/laravel-api-override-404-error-message-route-model-binding
         $this->renderable(function (NotFoundHttpException $e, Request $req) {
-            if ($req->is('*/report-status/*'))
+            if ($req->is('*/' . ReportStatusController::route . '/*'))
                 return $this->notFound('Report status data not found');
+        });
+        $this->renderable(function (NotFoundHttpException $e, Request $req) {
+            if ($req->is('*/' . RoleController::route . '/*'))
+                return $this->notFound('Role data not found');
         });
     }
 }

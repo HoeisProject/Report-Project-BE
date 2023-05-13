@@ -13,6 +13,7 @@ use Spatie\LaravelData\Attributes\Validation\Max;
 class RoleData extends Data
 {
     public function __construct(
+        public ?string $id,
         #[Required(), StringType, Max(255)]
         public string $name,
         #[Required(), StringType, Max(255)]

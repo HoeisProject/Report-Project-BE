@@ -11,6 +11,9 @@ use Illuminate\Http\Response;
 class RoleController extends Controller
 {
     use HttpResponses;
+
+    const route = 'role';
+
     /**
      * Display a listing of the resource.
      */
@@ -25,7 +28,7 @@ class RoleController extends Controller
      */
     public function store(RoleData $request)
     {
-        (array) $data = Role::create($request->all());
+        (array) $data = Role::create($request->all())->toArray();
         return $this->success($data, 'Role successfully created', Response::HTTP_OK);
     }
 

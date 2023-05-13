@@ -14,6 +14,8 @@ class ReportStatusController extends Controller
 {
     use HttpResponses;
 
+    const route = 'report-status';
+
     /**
      * Display a listing of the resource.
      */

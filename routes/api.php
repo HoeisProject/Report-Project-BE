@@ -22,5 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('ping', [AuthController::class, 'ping']);
-Route::apiResource('report-status', ReportStatusController::class);
-Route::apiResource('role', RoleController::class);
+Route::apiResource(ReportStatusController::route, ReportStatusController::class);
+Route::apiResource(RoleController::route, RoleController::class);
