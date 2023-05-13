@@ -13,6 +13,7 @@ use Spatie\LaravelData\Mappers\SnakeCaseMapper;
 class ReportStatusData extends Data
 {
     public function __construct(
+        public ?string $id,
         #[Required(), StringType, Max(255)]
         public string $name,
         #[Required(), StringType, Max(255)]

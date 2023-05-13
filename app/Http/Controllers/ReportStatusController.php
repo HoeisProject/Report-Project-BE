@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\ReportStatus;
-use Illuminate\Http\Request;
+
 use App\Data\ReportStatusData;
 use App\Traits\HttpResponses;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ReportStatusController extends Controller
@@ -43,13 +44,14 @@ class ReportStatusController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ReportStatusData $request, ReportStatus $reportStatus): JsonResponse
-    {;
-
+    public function update(ReportStatusData $request, ReportStatus $reportStatus)
+    {
+        // return $this->error($request->all(), null, 404);
         (bool) $isSuccess = $reportStatus->update($request->all());
         (array) $data = ReportStatusData::from($reportStatus)->toArray();
+        // return $data;
         if ($isSuccess)
-            return $this->success($data, 'Report status successfully updated', Response::HTTP_NO_CONTENT);
+            return $this->success($data, 'Report status successfully updated', Response::HTTP_OK);
 
         return $this->error($data, 'Report status failed updated', Response::HTTP_BAD_REQUEST);
     }

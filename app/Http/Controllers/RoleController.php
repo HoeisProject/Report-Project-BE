@@ -46,7 +46,7 @@ class RoleController extends Controller
         (bool) $isSuccess = $role->update($request->all());
         (array) $data = RoleData::from($role)->toArray();
         if ($isSuccess)
-            return $this->success($data, 'Role successfully updated', Response::HTTP_NO_CONTENT);
+            return $this->success($data, 'Role successfully updated', Response::HTTP_OK);
 
         return $this->error($data, 'Role failed updated', Response::HTTP_BAD_REQUEST);
     }
