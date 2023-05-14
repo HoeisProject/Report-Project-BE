@@ -27,4 +27,5 @@ Route::get('ping', [AuthController::class, 'ping']);
 Route::apiResource(ReportStatusController::route, ReportStatusController::class);
 Route::apiResource(RoleController::route, RoleController::class);
 Route::apiResource(UserController::route, UserController::class);
-Route::apiResource(ProjectController::route, RoleController::class);
+Route::apiResource(ProjectController::route, ProjectController::class);
+Route::post(ProjectController::route . '/{id}/restore', [ProjectController::class, 'restore']);

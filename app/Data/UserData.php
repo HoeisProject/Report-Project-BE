@@ -16,10 +16,10 @@ class UserData extends Data
 {
     public function __construct(
         public ?string $id,
-        public RoleData $role,
+        public Lazy | RoleData $role,
         // public DataCollection | Lazy $projects,
         #[DataCollectionOf(ProjectData::class)]
-        public DataCollection $projects,
+        public Lazy | DataCollection $projects,
         public string $username,
         public string $nickname,
         public string $email,
@@ -31,14 +31,16 @@ class UserData extends Data
     ) {
     }
 
-    public static function fromModel(User $user): self
+    public static function fromModel(User $user): UserData
     {
-
-        return new self(
+        /** @var Lazy|RoleData $projects */
+        $role = Lazy::create(fn () => RoleData::from($user->role))->defaultIncluded();
+        /** @var Lazy|DataCollection $projects */
+        $projects = Lazy::create(fn () => ProjectData::collection($user->projects));
+        return new UserData(
             $user->id,
-            RoleData::from($user->role),
-            // Lazy::create(fn () => ProjectData::collection($user->projects->toArray())),
-            ProjectData::collection($user->projects),
+            $role,
+            $projects,
             $user->username,
             $user->nickname,
             $user->email,

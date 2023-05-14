@@ -21,7 +21,10 @@ class UserController extends Controller
     public function index()
     {
         // return User::find(1)->projects->toArray();
+        // TODO Pagination
+        // TODO Authentication Admin Only
         (array) $data = UserData::collection(User::all())->toArray();
+        // (array) $data = UserData::collection(User::all())->include('projects')->toArray();
         return $this->success($data, null, Response::HTTP_OK);
     }
 
