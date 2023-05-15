@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReportStatusController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -45,6 +46,8 @@ class Handler extends ExceptionHandler
                 return $this->notFound('Project data not found');
             if ($req->is('*/' . UserController::route . '/*'))
                 return $this->notFound('User data not found');
+            if ($req->is('*/' . ReportController::route . '/*'))
+                return $this->notFound('report data not found');
         });
     }
 }

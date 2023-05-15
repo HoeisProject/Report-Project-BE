@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReportStatusController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -25,7 +26,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('ping', [AuthController::class, 'ping']);
 Route::apiResource(ReportStatusController::route, ReportStatusController::class);
+
 Route::apiResource(RoleController::route, RoleController::class);
+
 Route::apiResource(UserController::route, UserController::class);
+
 Route::apiResource(ProjectController::route, ProjectController::class);
 Route::post(ProjectController::route . '/{id}/restore', [ProjectController::class, 'restore']);
+
+Route::apiResource(ReportController::route, ReportController::class);
+Route::post(ReportController::route . '/{id}/restore', [ReportController::class, 'restore']);

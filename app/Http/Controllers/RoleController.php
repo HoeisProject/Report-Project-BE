@@ -29,7 +29,7 @@ class RoleController extends Controller
     public function store(RoleData $request): JsonResponse
     {
         (array) $data = Role::create($request->all())->toArray();
-        return $this->success($data, 'Role successfully created', Response::HTTP_OK);
+        return $this->success($data, 'Role successfully created', Response::HTTP_CREATED);
     }
 
     /**

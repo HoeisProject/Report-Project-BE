@@ -21,7 +21,7 @@ class ReportStatusController extends Controller
      */
     public function index(): JsonResponse
     {
-        (array) $data = ReportStatusData::collection(ReportStatus::all())->toArray();
+        (array) $data['data'] = ReportStatusData::collection(ReportStatus::all())->toArray();
         return $this->success($data, null, Response::HTTP_OK);
     }
 
