@@ -18,7 +18,7 @@ class UserData extends Data
         public ?string $id,
         public Lazy | RoleData $role,
         // public DataCollection | Lazy $projects,
-        #[DataCollectionOf(ProjectData::class)]
+        #[DataCollectionOf(ProjectOutputData::class)]
         public Lazy | DataCollection $projects,
         public string $username,
         public string $nickname,
@@ -34,9 +34,9 @@ class UserData extends Data
     public static function fromModel(User $user): UserData
     {
         /** @var Lazy|RoleData $projects */
-        $role = Lazy::create(fn () => RoleData::from($user->role))->defaultIncluded();
+        $role = Lazy::create(fn () => RoleData::from($user->role)); //->defaultIncluded();
         /** @var Lazy|DataCollection $projects */
-        $projects = Lazy::create(fn () => ProjectData::collection($user->projects));
+        $projects = Lazy::create(fn () => ProjectOutputData::collection($user->projects));
         return new UserData(
             $user->id,
             $role,

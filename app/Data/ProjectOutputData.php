@@ -10,20 +10,19 @@ use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Attributes\MapOutputName;
 use Spatie\LaravelData\Attributes\WithCast;
 use Spatie\LaravelData\Attributes\Validation\Date;
+use Spatie\LaravelData\Attributes\Validation\DateFormat;
 use Spatie\LaravelData\Casts\DateTimeInterfaceCast;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Lazy;
 use Spatie\LaravelData\Mappers\SnakeCaseMapper;
 
 #[MapName(SnakeCaseMapper::class)]
-class ProjectData extends Data
+class ProjectOutputData extends Data
 {
     public function __construct(
-        public ?string $id,
+        public string $id,
 
-        public Lazy | int | null $user_id,
-
-        public Lazy | UserData | null $user,
+        public Lazy | UserData $user,
 
         public string $name,
 
@@ -31,50 +30,45 @@ class ProjectData extends Data
 
         #[
             Date,
-            WithCast(DateTimeInterfaceCast::class, format: [DATE_ATOM, 'Y-m-d h:i:s']),
-            MapInputName('start_date'),
+            DateFormat('Y-m-d h:i:s'),
+            WithCast(DateTimeInterfaceCast::class, format: [DATE_ATOM, 'Y-m-d h:i:s'])
         ]
-        public Carbon $start_date,
+        public Carbon $startDate,
 
         #[
             Date,
-            WithCast(DateTimeInterfaceCast::class, format: [DATE_ATOM, 'Y-m-d h:i:s']),
-            MapInputName('end_date'),
-            MapOutputName('end_date')
+            DateFormat('Y-m-d h:i:s'),
+            WithCast(DateTimeInterfaceCast::class, format: [DATE_ATOM, 'Y-m-d h:i:s'])
         ]
-        public Carbon $end_date,
+        public Carbon $endDate,
 
         #[WithCast(DateTimeInterfaceCast::class)]
         public ?Carbon $deletedAt,
 
         #[WithCast(DateTimeInterfaceCast::class)]
-        public ?Carbon $createdAt,
+        public Carbon $createdAt,
 
         #[WithCast(DateTimeInterfaceCast::class)]
-        public ?Carbon $updatedAt,
+        public Carbon $updatedAt,
 
     ) {
     }
 
-    public static function fromModel(Project $project): ProjectData
+    public static function fromModel(Project $project): ProjectOutputData
     {
         // dd($project);
-        // $user = User::find($project->user_id);
         /** @var Lazy|UserData|null $userData */
-        $userData = Lazy::create(fn () => UserData::from(User::find($project->user_id)))->defaultIncluded();
-
-        $userId = Lazy::create(fn () => $project->user_id);
+        $userData = Lazy::create(fn () => UserData::from(User::find($project->user_id))->include('role'));
 
         // Kamprettt bener ini solusi :) -> PHP Worst Programming Language
         $deletedAtData = is_null($project->deleted_at) ? null : new Carbon($project->deleted_at);
 
-        return new ProjectData(
+        return new ProjectOutputData(
             $project->id,
-            $userId,
             $userData,
             $project->name,
             $project->description,
-            new Carbon($project->start_date),
+            new  Carbon($project->start_date),
             new Carbon($project->end_date),
             $deletedAtData,
             new Carbon($project->created_at),
