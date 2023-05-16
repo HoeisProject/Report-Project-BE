@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('user_image')->nullable();
             $table->string('ktp_image')->nullable();
+            $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
             $table->foreign('role_id')

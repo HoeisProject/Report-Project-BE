@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Illuminate\Http\JsonResponse;
+use Laravel\Sanctum\NewAccessToken;
 
 trait HttpResponses
 {
@@ -12,8 +13,18 @@ trait HttpResponses
         // $data['message'] = $message;
         // return response()->json($data, $code);
         return response()->json([
-            'status' => 'Request was successfull',
+            'status' => 'Request was successfully',
             'message' => $message,
+            'data' => $data
+        ], $code);
+    }
+
+    protected function successAuth(array $data, NewAccessToken $token, ?string $message = 'Authenticated User', int $code = 200): JsonResponse
+    {
+        return response()->json([
+            'status' => 'Request was successfully',
+            'message' => $message,
+            'token' => $token->plainTextToken,
             'data' => $data
         ], $code);
     }

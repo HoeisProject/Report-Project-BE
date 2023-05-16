@@ -27,9 +27,9 @@ class ReportOutputData extends Data
     public function __construct(
         public string $id,
 
-        public Lazy | ProjectData $project,
+        public Lazy | ProjectOutputData $project,
 
-        public Lazy | UserData $user,
+        public Lazy | UserOutputData $user,
 
         public Lazy | ReportStatusData $reportStatus,
 
@@ -54,10 +54,10 @@ class ReportOutputData extends Data
     {
 
         /** @var Lazy|ProjectData|null $projectData */
-        $projectData = Lazy::create(fn () => ProjectData::from(Project::find($report->project_id)));
+        $projectData = Lazy::create(fn () => ProjectOutputData::from(Project::find($report->project_id)));
 
         /** @var Lazy|UserData|null $userData */
-        $userData = Lazy::create(fn () => UserData::from(User::find($report->user_id)));
+        $userData = Lazy::create(fn () => UserOutputData::from(User::find($report->user_id)));
 
         /** @var Lazy|ReportStatusData|null $reportStatusData */
         $reportStatusData = Lazy::create(fn () => ReportStatusData::from(ReportStatus::find($report->user_id)));

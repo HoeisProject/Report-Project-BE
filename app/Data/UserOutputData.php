@@ -10,12 +10,13 @@ use Spatie\LaravelData\DataCollection;
 use Spatie\LaravelData\Lazy;
 use Spatie\LaravelData\Mappers\SnakeCaseMapper;
 use App\Data\ProjectData;
+use Illuminate\Support\Facades\Storage;
 
 #[MapName(SnakeCaseMapper::class)]
-class UserData extends Data
+class UserOutputData extends Data
 {
     public function __construct(
-        public ?string $id,
+        public string $id,
         public Lazy | RoleData $role,
         // public DataCollection | Lazy $projects,
         #[DataCollectionOf(ProjectOutputData::class)]
@@ -24,20 +25,24 @@ class UserData extends Data
         public string $nickname,
         public string $email,
         public ?string $nik,
-        public ?string $phoneNumber,
+        public string $phoneNumber,
         public string $status,
-        public ?string $userImage,
+        public string $userImage,
         public ?string $ktpImage,
     ) {
     }
 
-    public static function fromModel(User $user): UserData
+    public static function fromModel(User $user): UserOutputData
     {
         /** @var Lazy|RoleData $projects */
         $role = Lazy::create(fn () => RoleData::from($user->role)); //->defaultIncluded();
+
         /** @var Lazy|DataCollection $projects */
         $projects = Lazy::create(fn () => ProjectOutputData::collection($user->projects));
-        return new UserData(
+
+        $userImage = Storage::url($user->user_image);
+
+        return new UserOutputData(
             $user->id,
             $role,
             $projects,
@@ -47,7 +52,7 @@ class UserData extends Data
             $user->nik,
             $user->phone_number,
             $user->status,
-            $user->user_image,
+            $userImage,
             $user->ktp_image
         );
     }

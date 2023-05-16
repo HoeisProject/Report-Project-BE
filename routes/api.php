@@ -29,10 +29,16 @@ Route::apiResource(ReportStatusController::route, ReportStatusController::class)
 
 Route::apiResource(RoleController::route, RoleController::class);
 
-Route::apiResource(UserController::route, UserController::class);
-
-Route::apiResource(ProjectController::route, ProjectController::class);
-Route::post(ProjectController::route . '/{id}/restore', [ProjectController::class, 'restore']);
-
-Route::apiResource(ReportController::route, ReportController::class);
+Route::apiResource(ReportController::route, ReportController::class)->except(['store']);
 Route::post(ReportController::route . '/{id}/restore', [ReportController::class, 'restore']);
+
+Route::post('login', [AuthController::class, 'login']);
+Route::post('register', [AuthController::class, 'register']);
+
+// Protected Routes - Only authenticated
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::apiResource(UserController::route, UserController::class);
+
+    Route::apiResource(ProjectController::route, ProjectController::class);
+    Route::post(ProjectController::route . '/{id}/restore', [ProjectController::class, 'restore']);
+});

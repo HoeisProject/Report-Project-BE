@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Data\UserData;
+use App\Data\UserOutputData;
 use App\Traits\HttpResponses;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -21,27 +22,24 @@ class UserController extends Controller
     public function index()
     {
         // return User::find(1)->projects->toArray();
-        // TODO Pagination
         // TODO Authentication Admin Only
-        (array) $data = UserData::collection(User::all())->toArray();
+        (array) $data = UserOutputData::collection(User::paginate())->toArray();
         // (array) $data = UserData::collection(User::all())->include('projects')->toArray();
-        return $this->success($data, null, Response::HTTP_OK);
+        return $this->successPaginate($data, null, Response::HTTP_OK);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    // Register Method in AuthController
+    // public function store(Request $request)
+    // {
+    //     //
+    // }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $id)
     {
-        //
+        // (array) $data = User
     }
 
     /**

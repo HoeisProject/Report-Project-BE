@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
             'phone_number' => fake()->phoneNumber(),
             'status' => 0,
             'password' => Hash::make('admin'),
-            // 'user_image' => $imageDummy,
+            'user_image' => $imageDummy,
             // 'ktp_image' => $imageDummy
         ]);
         User::create([
@@ -38,7 +38,7 @@ class UserSeeder extends Seeder
             'phone_number' => fake()->phoneNumber(),
             'status' => 0,
             'password' => Hash::make('developer'),
-            // 'user_image' => $imageDummy,
+            'user_image' => $imageDummy,
             // 'ktp_image' => $imageDummy
         ]);
 

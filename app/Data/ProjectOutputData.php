@@ -6,8 +6,6 @@ use App\Models\Project;
 use App\Models\User;
 use Carbon\Carbon;
 use Spatie\LaravelData\Attributes\MapName;
-use Spatie\LaravelData\Attributes\MapInputName;
-use Spatie\LaravelData\Attributes\MapOutputName;
 use Spatie\LaravelData\Attributes\WithCast;
 use Spatie\LaravelData\Attributes\Validation\Date;
 use Spatie\LaravelData\Attributes\Validation\DateFormat;
@@ -22,7 +20,7 @@ class ProjectOutputData extends Data
     public function __construct(
         public string $id,
 
-        public Lazy | UserData $user,
+        public Lazy | UserOutputData $user,
 
         public string $name,
 
@@ -58,7 +56,7 @@ class ProjectOutputData extends Data
     {
         // dd($project);
         /** @var Lazy|UserData|null $userData */
-        $userData = Lazy::create(fn () => UserData::from(User::find($project->user_id))->include('role'));
+        $userData = Lazy::create(fn () => UserOutputData::from(User::find($project->user_id))->include('role'));
 
         // Kamprettt bener ini solusi :) -> PHP Worst Programming Language
         $deletedAtData = is_null($project->deleted_at) ? null : new Carbon($project->deleted_at);
