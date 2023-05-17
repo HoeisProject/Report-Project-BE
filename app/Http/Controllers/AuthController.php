@@ -16,12 +16,16 @@ use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
-
     use HttpResponses;
 
-    public function ping(): JsonResponse
+    public function logout(Request $request)
     {
-        return response()->json('Ping - Running ...');
+        // https://laravel.com/docs/10.x/sanctum#revoking-tokens
+        // $request->user() only available if using middleware, for example auth:sanctum
+        $request->user()->currentAccessToken()->delete();
+        // $request->user()->tokens()->delete();
+
+        return $this->success([], 'You have successfully been logged out and your token has been deleted', Response::HTTP_OK);
     }
 
     public function login(UserLoginData $request)

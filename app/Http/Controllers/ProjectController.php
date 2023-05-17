@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Data\ProjectData;
-use App\Data\ProjectInputData;
+use App\Data\ProjectCreateData;
 use App\Data\ProjectOutputData;
+use App\Data\ProjectUpdateData;
 use App\Models\Project;
 use App\Traits\HttpResponses;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ProjectController extends Controller
 {
@@ -31,7 +33,7 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProjectInputData $request): JsonResponse
+    public function store(ProjectCreateData $request): JsonResponse
     {
         // TODO Only Role Admin
         (array) $data = Project::create($request->all())->toArray();
@@ -50,10 +52,9 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ProjectInputData $request, Project $project): JsonResponse
+    public function update(ProjectUpdateData $request, Project $project): JsonResponse
     {
         // TODO Only Role Admin
-        // TODO user_id, start_date, end_date => can not update
         (bool) $isSuccess = $project->update($request->all());
         (array) $data = ProjectOutputData::from($project)->toArray();
         if ($isSuccess)
@@ -85,6 +86,9 @@ class ProjectController extends Controller
     public function restore(string $id)
     {
         $project = Project::withTrashed()->where('id', $id)->first();
+        if ($project == null)
+            throw new NotFoundHttpException();
+
         $isSuccess = $project->restore();
         if ($isSuccess) {
             (array) $data = ProjectOutputData::from($project)->toArray();

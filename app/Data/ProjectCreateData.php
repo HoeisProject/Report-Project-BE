@@ -2,13 +2,8 @@
 
 namespace App\Data;
 
-
-use App\Models\Project;
-use App\Models\User;
 use Carbon\Carbon;
 use Spatie\LaravelData\Attributes\MapName;
-use Spatie\LaravelData\Attributes\MapInputName;
-use Spatie\LaravelData\Attributes\MapOutputName;
 use Spatie\LaravelData\Attributes\WithCast;
 
 use Spatie\LaravelData\Casts\DateTimeInterfaceCast;
@@ -18,11 +13,10 @@ use Spatie\LaravelData\Attributes\Validation\Required;
 use Spatie\LaravelData\Attributes\Validation\StringType;
 use Spatie\LaravelData\Attributes\Validation\Max;
 use Spatie\LaravelData\Attributes\Validation\Date;
-use Spatie\LaravelData\Attributes\Validation\DateFormat;
 use Spatie\LaravelData\Mappers\SnakeCaseMapper;
 
 #[MapName(SnakeCaseMapper::class)]
-class ProjectInputData extends Data
+class ProjectCreateData extends Data
 {
     public function __construct(
         #[Required(), IntegerType]

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Data\ReportInputData;
+use App\Data\ReportCreateData;
 use App\Data\ReportOutputData;
+use App\Data\ReportUpdateData;
 use App\Models\Report;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ReportController extends Controller
 {
@@ -29,7 +31,7 @@ class ReportController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ReportInputData $request)
+    public function store(ReportCreateData $request)
     {
         // TODO Only authorized employee
         (array) $data = Report::create($request->all())->toArray();
@@ -48,7 +50,7 @@ class ReportController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ReportInputData $request, Report $report)
+    public function update(ReportUpdateData $request, Report $report)
     {
         (bool) $isSuccess = $report->update($request->all());
         (array) $data = ReportOutputData::from($report)->toArray();
@@ -78,6 +80,9 @@ class ReportController extends Controller
     public function restore(string $id)
     {
         $report = Report::withTrashed()->where('id', $id)->first();
+        if ($report == null)
+            throw new NotFoundHttpException();
+
         $isSuccess = $report->restore();
 
         if ($isSuccess) {

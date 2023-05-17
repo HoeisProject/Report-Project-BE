@@ -11,7 +11,7 @@ use Spatie\LaravelData\Attributes\Validation\IntegerType;
 use Spatie\LaravelData\Mappers\SnakeCaseMapper;
 
 #[MapName(SnakeCaseMapper::class)]
-class ReportInputData extends Data
+class ReportCreateData extends Data
 {
     public function __construct(
         #[Required(), IntegerType]
