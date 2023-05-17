@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Data\ReportCreateData;
-use App\Data\ReportOutputData;
-use App\Data\ReportUpdateData;
+use App\Data\Report\ReportCreateData;
+use App\Data\Report\ReportOutputData;
+use App\Data\Report\ReportUpdateData;
 use App\Models\Report;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;

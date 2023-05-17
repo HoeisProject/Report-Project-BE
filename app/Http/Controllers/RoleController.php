@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Data\RoleData;
+use App\Data\Role\RoleData;
 use App\Models\Role;
 use App\Traits\HttpResponses;
 use Illuminate\Http\JsonResponse;

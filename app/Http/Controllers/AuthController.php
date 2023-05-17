@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Data\UserLoginData;
-use App\Data\UserRegisterData;
-use App\Data\UserOutputData;
+use App\Data\User\UserLoginData;
+use App\Data\User\UserRegisterData;
+use App\Data\User\UserOutputData;
 use App\Models\User;
 use App\Traits\HttpResponses;
 use Illuminate\Http\JsonResponse;

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Data;
+namespace App\Data\Project;
 
+use App\Data\User\UserOutputData;
 use App\Models\Project;
 use App\Models\User;
 use Carbon\Carbon;

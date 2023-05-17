@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data;
+namespace App\Data\Project;
 
 use Carbon\Carbon;
 use Spatie\LaravelData\Attributes\MapName;

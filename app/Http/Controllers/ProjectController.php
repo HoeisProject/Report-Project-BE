@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Data\ProjectData;
-use App\Data\ProjectCreateData;
-use App\Data\ProjectOutputData;
-use App\Data\ProjectUpdateData;
+use App\Data\Project\ProjectCreateData;
+use App\Data\Project\ProjectOutputData;
+use App\Data\Project\ProjectUpdateData;
+use App\Exceptions\NotAnAdminException;
 use App\Models\Project;
+use App\Models\Role;
 use App\Traits\HttpResponses;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -27,9 +29,13 @@ class ProjectController extends Controller
         return $this->successPaginate($data, null, Response::HTTP_OK);
     }
 
-    public function store(ProjectCreateData $req): JsonResponse
+    public function store(ProjectCreateData $req, Request $request): JsonResponse
     {
-        // TODO Only Role Admin
+        $user = $request->user();
+        $adminRole = Role::where('name', 'admin')->first();
+        if ($user->role_id != $adminRole->id) {
+            throw new NotAnAdminException();
+        }
         (array) $data = Project::create($req->all())->toArray();
         return $this->success($data, 'Project successfully created', Response::HTTP_CREATED);
     }

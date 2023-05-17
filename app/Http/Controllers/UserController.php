@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Data\UserData;
-use App\Data\UserOutputData;
-use App\Data\UserVerifyData;
+use App\Data\User\UserOutputData;
+use App\Data\User\UserVerifyData;
 use App\Traits\HttpResponses;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;

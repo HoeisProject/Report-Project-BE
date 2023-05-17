@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data;
+namespace App\Data\User;
 
 use Illuminate\Http\UploadedFile;
 use Spatie\LaravelData\Attributes\MapName;
@@ -11,9 +11,7 @@ use Spatie\LaravelData\Attributes\Validation\Required;
 use Spatie\LaravelData\Attributes\Validation\StringType;
 use Spatie\LaravelData\Attributes\Validation\Email;
 use Spatie\LaravelData\Attributes\Validation\Max;
-use Spatie\LaravelData\Attributes\Validation\Password;
 use Spatie\LaravelData\Attributes\Validation\Image;
-use Spatie\LaravelData\Attributes\Validation\Size;
 use Spatie\LaravelData\Attributes\Validation\In;
 
 #[MapName(SnakeCaseMapper::class)]

@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Data;
+namespace App\Data\User;
 
+use App\Data\Project\ProjectOutputData;
+use App\Data\Role\RoleData;
 use App\Models\User;
 use Spatie\LaravelData\Attributes\MapName;
 use Spatie\LaravelData\Attributes\DataCollectionOf;
@@ -9,7 +11,6 @@ use Spatie\LaravelData\Data;
 use Spatie\LaravelData\DataCollection;
 use Spatie\LaravelData\Lazy;
 use Spatie\LaravelData\Mappers\SnakeCaseMapper;
-use App\Data\ProjectData;
 use Illuminate\Support\Facades\Storage;
 
 #[MapName(SnakeCaseMapper::class)]

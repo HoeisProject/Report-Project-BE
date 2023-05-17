@@ -1,7 +1,10 @@
 <?php
 
-namespace App\Data;
+namespace App\Data\Report;
 
+use App\Data\Project\ProjectOutputData;
+use App\Data\ReportStatus\ReportStatusData;
+use App\Data\User\UserOutputData;
 use App\Models\Project;
 use App\Models\Report;
 use App\Models\ReportStatus;

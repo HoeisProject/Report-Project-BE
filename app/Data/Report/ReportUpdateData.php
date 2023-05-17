@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data;
+namespace App\Data\Report;
 
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Attributes\MapName;
