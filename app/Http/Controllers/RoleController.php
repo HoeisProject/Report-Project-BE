@@ -14,39 +14,27 @@ class RoleController extends Controller
 
     const route = 'role';
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index(): JsonResponse
     {
         (array) $data = RoleData::collection(Role::all())->toArray();
         return $this->success($data, null, Response::HTTP_OK);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(RoleData $request): JsonResponse
+    public function store(RoleData $req): JsonResponse
     {
-        (array) $data = Role::create($request->all())->toArray();
+        (array) $data = Role::create($req->all())->toArray();
         return $this->success($data, 'Role successfully created', Response::HTTP_CREATED);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Role $role): JsonResponse
     {
         (array) $data = RoleData::from($role)->toArray();
         return $this->success($data, null, Response::HTTP_OK);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(RoleData $request, Role $role): JsonResponse
+    public function update(RoleData $req, Role $role): JsonResponse
     {
-        (bool) $isSuccess = $role->update($request->all());
+        (bool) $isSuccess = $role->update($req->all());
         (array) $data = RoleData::from($role)->toArray();
         if ($isSuccess)
             return $this->success($data, 'Role successfully updated', Response::HTTP_OK);
@@ -54,9 +42,6 @@ class RoleController extends Controller
         return $this->error($data, 'Role failed updated', Response::HTTP_BAD_REQUEST);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Role $role): JsonResponse
     {
         // (bool) $isSuccess = $role->delete();

@@ -18,9 +18,9 @@ class UserController extends Controller
 
     const route = 'user';
 
-    /**
-     * Display a listing of the resource.
-     */
+    // Register Method in AuthController@Register
+    // Destroy Method in AdminController
+
     public function index()
     {
         // return User::find(1)->projects->toArray();
@@ -30,15 +30,6 @@ class UserController extends Controller
         return $this->successPaginate($data, null, Response::HTTP_OK);
     }
 
-    // Register Method in AuthController
-    // public function store(Request $request)
-    // {
-    //     //
-    // }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(User $user)
     {
         $data = UserOutputData::from($user)->toArray();
@@ -46,21 +37,10 @@ class UserController extends Controller
         return $this->success($data, null, Response::HTTP_OK);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         //
     }
-
-    // /**
-    //  * Remove the specified resource from storage.
-    //  */
-    // public function destroy(string $id)
-    // {
-    //     //
-    // }
 
     public function verify(UserVerifyData $req, Request $request)
     {

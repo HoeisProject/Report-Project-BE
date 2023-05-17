@@ -17,42 +17,28 @@ class ReportController extends Controller
 
     const route = 'report';
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $data = ReportOutputData::collection(Report::paginate())->toArray();
 
-        // Illuminate\\Pagination\\LengthAwarePaginator
         return $this->successPaginate($data, 'success', Response::HTTP_OK);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(ReportCreateData $request)
+    public function store(ReportCreateData $req)
     {
-        // TODO Only authorized employee
-        (array) $data = Report::create($request->all())->toArray();
+        (array) $data = Report::create($req->all())->toArray();
         return $this->success($data, 'Report successfully created', Response::HTTP_CREATED);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Report $report)
     {
         (array) $data = ReportOutputData::from($report)->toArray();
         return $this->success($data, null, Response::HTTP_OK);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(ReportUpdateData $request, Report $report)
+    public function update(ReportUpdateData $req, Report $report)
     {
-        (bool) $isSuccess = $report->update($request->all());
+        (bool) $isSuccess = $report->update($req->all());
         (array) $data = ReportOutputData::from($report)->toArray();
         if ($isSuccess)
             return $this->success($data, 'Report successfully updated', Response::HTTP_OK);
@@ -60,9 +46,6 @@ class ReportController extends Controller
         return $this->error($data, 'Report failed updated', Response::HTTP_BAD_REQUEST);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Report $report)
     {
         // Using Soft Delete

@@ -16,40 +16,28 @@ class ReportStatusController extends Controller
 
     const route = 'report-status';
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index(): JsonResponse
     {
         (array) $data = ReportStatusData::collection(ReportStatus::paginate())->toArray();
         return $this->successPaginate($data, null, Response::HTTP_OK);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(ReportStatusData $request): JsonResponse
+    public function store(ReportStatusData $req): JsonResponse
     {
-        (array) $data = ReportStatus::create($request->all())->toArray();
+        (array) $data = ReportStatus::create($req->all())->toArray();
         return $this->success($data, 'Report status successfully created', Response::HTTP_CREATED);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(ReportStatus $reportStatus): JsonResponse
     {
         (array) $data = ReportStatusData::from($reportStatus)->toArray();
         return $this->success($data, null, Response::HTTP_OK);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(ReportStatusData $request, ReportStatus $reportStatus)
+    public function update(ReportStatusData $req, ReportStatus $reportStatus)
     {
-        // return $this->error($request->all(), null, 404);
-        (bool) $isSuccess = $reportStatus->update($request->all());
+        // return $this->error($req->all(), null, 404);
+        (bool) $isSuccess = $reportStatus->update($req->all());
         (array) $data = ReportStatusData::from($reportStatus)->toArray();
         // return $data;
         if ($isSuccess)
@@ -58,9 +46,6 @@ class ReportStatusController extends Controller
         return $this->error($data, 'Report status failed updated', Response::HTTP_BAD_REQUEST);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(ReportStatus $reportStatus): JsonResponse
     {
         // (bool) $isSuccess = $reportStatus->delete();

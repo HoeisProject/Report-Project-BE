@@ -19,9 +19,6 @@ class ProjectController extends Controller
 
     const route = 'project';
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index(): JsonResponse
     {
         // return Project::withTrashed()->get();
@@ -30,32 +27,23 @@ class ProjectController extends Controller
         return $this->successPaginate($data, null, Response::HTTP_OK);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(ProjectCreateData $request): JsonResponse
+    public function store(ProjectCreateData $req): JsonResponse
     {
         // TODO Only Role Admin
-        (array) $data = Project::create($request->all())->toArray();
+        (array) $data = Project::create($req->all())->toArray();
         return $this->success($data, 'Project successfully created', Response::HTTP_CREATED);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Project $project): JsonResponse
     {
         (array) $data = ProjectOutputData::from($project)->toArray();
         return $this->success($data, null, Response::HTTP_OK);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(ProjectUpdateData $request, Project $project): JsonResponse
+    public function update(ProjectUpdateData $req, Project $project): JsonResponse
     {
         // TODO Only Role Admin
-        (bool) $isSuccess = $project->update($request->all());
+        (bool) $isSuccess = $project->update($req->all());
         (array) $data = ProjectOutputData::from($project)->toArray();
         if ($isSuccess)
             return $this->success($data, 'Project successfully updated', Response::HTTP_OK);
@@ -63,9 +51,6 @@ class ProjectController extends Controller
         return $this->error($data, 'Project failed updated', Response::HTTP_BAD_REQUEST);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Project $project): JsonResponse
     {
         // Using Soft Delete
@@ -80,9 +65,6 @@ class ProjectController extends Controller
         return $this->error(null, 'Project failed deleted', Response::HTTP_BAD_REQUEST);
     }
 
-    /**
-     * Restore the specified resource from storage.
-     */
     public function restore(string $id)
     {
         $project = Project::withTrashed()->where('id', $id)->first();

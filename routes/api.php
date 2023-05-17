@@ -28,7 +28,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::get('current-user', [AuthController::class, 'currentUser']);
 
-    Route::apiResource(UserController::route, UserController::class)->except('store');
+    Route::apiResource(UserController::route, UserController::class)->except('store', 'destroy');
     Route::post('user-verify', [UserController::class, 'verify']);
 
     Route::apiResource(ProjectController::route, ProjectController::class);

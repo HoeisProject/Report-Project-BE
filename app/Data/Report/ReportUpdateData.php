@@ -14,15 +14,6 @@ use Spatie\LaravelData\Mappers\SnakeCaseMapper;
 class ReportUpdateData extends Data
 {
     public function __construct(
-        // #[Required(), IntegerType]
-        // public int $project_id,
-
-        // #[Required(), IntegerType]
-        // public int $user_id,
-
-        // #[Required(), IntegerType]
-        // public int $report_status_id,
-
         #[Required(), StringType, Max(255)]
         public string $title,
 
