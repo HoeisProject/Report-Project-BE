@@ -18,44 +18,54 @@ class AuthController extends Controller
 {
     use HttpResponses;
 
-    public function logout(Request $request)
+    public function currentUser(Request $request)
+    {
+        $user = $request->user();
+
+        $data = UserOutputData::from($user)->toArray();
+
+        return $this->success($data, null, Response::HTTP_OK);
+    }
+
+    public function logout(Request $req)
     {
         // https://laravel.com/docs/10.x/sanctum#revoking-tokens
-        // $request->user() only available if using middleware, for example auth:sanctum
-        $request->user()->currentAccessToken()->delete();
-        // $request->user()->tokens()->delete();
+        // $req->user() only available if using middleware, for example auth:sanctum
+        $req->user()->currentAccessToken()->delete();
+        // $req->user()->tokens()->delete();
 
         return $this->success([], 'You have successfully been logged out and your token has been deleted', Response::HTTP_OK);
     }
 
-    public function login(UserLoginData $request)
+    public function login(UserLoginData $req)
     {
 
-        if (!Auth::attempt($request->only('email', 'password')->toArray())) {
+        if (!Auth::attempt($req->only('email', 'password')->toArray())) {
             return $this->error(null, 'Credentials do not match', Response::HTTP_UNAUTHORIZED);
         }
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $req->email)->first();
 
-        $token = $user->createToken('API Token of ' . $request->email);
+        $token = $user->createToken('API Token of ' . $req->email);
 
         $data = UserOutputData::from($user)->toArray();
 
         return $this->successAuth($data, $token, null, Response::HTTP_OK);
     }
 
-    public function register(UserRegisterData $request)
+    public function register(UserRegisterData $req)
     {
-        $fileImagePath =  $request->user_image->storeAs('public/users', $request->user_image->hashName());
+        (string) $fileName = 'user-' . $req->email . '.' . $req->user_image->getClientOriginalExtension();
+        (string) $fileImagePath =  $req->user_image->storeAs('public/users', $fileName);
 
         $user = new User();
-        $user->role_id = $request->role_id;
-        $user->username = $request->username;
-        $user->nickname = $request->nickname;
-        $user->email = $request->email;
-        $user->phone_number = $request->phone_number;
-        $user->status = $request->status;
-        $user->password = Hash::make($request->password);
+        $user->role_id = $req->role_id;
+        $user->username = $req->username;
+        $user->nickname = $req->nickname;
+        $user->email = $req->email;
+        $user->phone_number = $req->phone_number;
+        $user->status = $req->status;
+        $user->password = Hash::make($req->password);
         $user->user_image = $fileImagePath;
 
         (bool) $isSuccess = $user->save();

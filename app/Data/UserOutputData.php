@@ -42,6 +42,8 @@ class UserOutputData extends Data
 
         $userImage = Storage::url($user->user_image);
 
+        $ktpImage = $user->ktp_image ? Storage::url($user->ktp_image) : null;
+
         return new UserOutputData(
             $user->id,
             $role,
@@ -53,7 +55,7 @@ class UserOutputData extends Data
             $user->phone_number,
             $user->status,
             $userImage,
-            $user->ktp_image
+            $ktpImage
         );
     }
 }

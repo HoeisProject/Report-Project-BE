@@ -10,20 +10,9 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::get('ping', [DevToolController::class, 'ping']);
 
@@ -37,8 +26,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('ping-authorize', [DevToolController::class, 'pingAuthorize']);
     Route::post('logout', [AuthController::class, 'logout']);
+    Route::get('current-user', [AuthController::class, 'currentUser']);
 
     Route::apiResource(UserController::route, UserController::class)->except('store');
+    Route::post('user-verify', [UserController::class, 'verify']);
 
     Route::apiResource(ProjectController::route, ProjectController::class);
     Route::post(ProjectController::route . '/{id}/restore', [ProjectController::class, 'restore']);
@@ -50,3 +41,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::apiResource(RoleController::route, RoleController::class);
 });
+
+// 405 = Method Not Allowed
