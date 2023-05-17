@@ -31,11 +31,11 @@ class ProjectController extends Controller
 
     public function store(ProjectCreateData $req, Request $request): JsonResponse
     {
-        $user = $request->user();
-        $adminRole = Role::where('name', 'admin')->first();
-        if ($user->role_id != $adminRole->id) {
-            throw new NotAnAdminException();
-        }
+        // $user = $request->user();
+        // $adminRole = Role::where('name', 'admin')->first();
+        // if ($user->role_id != $adminRole->id) {
+        //     throw new NotAnAdminException();
+        // }
         (array) $data = Project::create($req->all())->toArray();
         return $this->success($data, 'Project successfully created', Response::HTTP_CREATED);
     }
@@ -46,9 +46,13 @@ class ProjectController extends Controller
         return $this->success($data, null, Response::HTTP_OK);
     }
 
-    public function update(ProjectUpdateData $req, Project $project): JsonResponse
+    public function update(Request $request,  ProjectUpdateData $req, Project $project): JsonResponse
     {
-        // TODO Only Role Admin
+        // $user = $request->user();
+        // $adminRole = Role::where('name', 'admin')->first();
+        // if ($user->role_id != $adminRole->id) {
+        //     throw new NotAnAdminException();
+        // }
         (bool) $isSuccess = $project->update($req->all());
         (array) $data = ProjectOutputData::from($project)->toArray();
         if ($isSuccess)

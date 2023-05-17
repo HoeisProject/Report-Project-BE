@@ -7,6 +7,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReportStatusController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\OnlyAdminAction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,8 +32,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::apiResource(UserController::route, UserController::class)->except('store', 'destroy');
     Route::post('user-verify', [UserController::class, 'verify']);
 
-    Route::apiResource(ProjectController::route, ProjectController::class);
+    Route::apiResource(ProjectController::route, ProjectController::class)->except('store', 'update');
     Route::post(ProjectController::route . '/{id}/restore', [ProjectController::class, 'restore']);
+
+    Route::middleware([OnlyAdminAction::class])->group(function () {
+        Route::post(ProjectController::route, [ProjectController::class, 'store']);
+        Route::put(ProjectController::route . '/{id}', [ProjectController::class, 'update']);
+    });
 
     Route::apiResource(ReportController::route, ReportController::class);
     Route::post(ReportController::route . '/{id}/restore', [ReportController::class, 'restore']);
