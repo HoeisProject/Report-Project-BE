@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('report_id');
             $table->string('attachment');
+            $table->softDeletes();
             $table->timestamps();
             $table->foreign('report_id')
                 ->references('id')

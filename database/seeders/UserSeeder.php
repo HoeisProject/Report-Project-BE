@@ -15,7 +15,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // TODO Laravel public path
         (string) $imageDummy = fake()->imageUrl();
         User::create([
             'role_id' => Role::all()->where('name', 'admin')->first()->id,

@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DevToolController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ReportMediaController;
 use App\Http\Controllers\ReportStatusController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -25,27 +26,47 @@ Route::post('register', [AuthController::class, 'register']);
 // Protected Routes - Only authenticated
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
+    /// Auth and Dev Tool
     Route::get('ping-authorize', [DevToolController::class, 'pingAuthorize']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::get('current-user', [AuthController::class, 'currentUser']);
 
-    Route::apiResource(UserController::route, UserController::class)->except('store', 'destroy');
+    /// User
+    Route::apiResource(UserController::route, UserController::class)->except('index', 'store', 'destroy');
     Route::post('user-verify', [UserController::class, 'verify']);
+    Route::get(UserController::route, [UserController::class, 'index'])->middleware([OnlyAdminAction::class]);
 
+    /// Project
     Route::apiResource(ProjectController::route, ProjectController::class)->except('store', 'update');
     Route::post(ProjectController::route . '/{id}/restore', [ProjectController::class, 'restore']);
-
     Route::middleware([OnlyAdminAction::class])->group(function () {
         Route::post(ProjectController::route, [ProjectController::class, 'store']);
         Route::put(ProjectController::route . '/{id}', [ProjectController::class, 'update']);
     });
 
+    /// Report
     Route::apiResource(ReportController::route, ReportController::class);
     Route::post(ReportController::route . '/{id}/restore', [ReportController::class, 'restore']);
 
+    // Report Media
+    Route::apiResource(ReportMediaController::route, ReportMediaController::class);
+    Route::post(ReportMediaController::route . '/{id}/restore', [ReportMediaController::class, 'restore']);
+
+    /// Report Status
     Route::apiResource(ReportStatusController::route, ReportStatusController::class);
 
+    /// Role
     Route::apiResource(RoleController::route, RoleController::class);
 });
 
 // 405 = Method Not Allowed
+
+/*
+
+$pagination = count($_SESSION["saw_cameras_5"][0]);
+
+$offset = ($page-1) * $pagination;
+
+$numbering = $i + $offset;
+
+*/

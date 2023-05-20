@@ -28,7 +28,6 @@ class UserFactory extends Factory
             4 reject
         */
 
-        // TODO Laravel public path
         (string) $imageDummy = fake()->imageUrl();
         (int) $status = fake()->numberBetween(1, 4);
         (string) $nik = null;

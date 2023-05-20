@@ -20,7 +20,6 @@ class Project extends Model
         'end_date'
     ];
 
-    // TODO Timestamp using Carbon ??
     // protected $casts = [
     //     'start_date' => 'datetime:Y-m-d h:i:s',
     //     'end_date' => 'datetime:Y-m-d h:i:s',

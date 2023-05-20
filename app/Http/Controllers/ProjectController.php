@@ -31,11 +31,6 @@ class ProjectController extends Controller
 
     public function store(ProjectCreateData $req, Request $request): JsonResponse
     {
-        // $user = $request->user();
-        // $adminRole = Role::where('name', 'admin')->first();
-        // if ($user->role_id != $adminRole->id) {
-        //     throw new NotAnAdminException();
-        // }
         (array) $data = Project::create($req->all())->toArray();
         return $this->success($data, 'Project successfully created', Response::HTTP_CREATED);
     }
@@ -48,11 +43,6 @@ class ProjectController extends Controller
 
     public function update(Request $request,  ProjectUpdateData $req, Project $project): JsonResponse
     {
-        // $user = $request->user();
-        // $adminRole = Role::where('name', 'admin')->first();
-        // if ($user->role_id != $adminRole->id) {
-        //     throw new NotAnAdminException();
-        // }
         (bool) $isSuccess = $project->update($req->all());
         (array) $data = ProjectOutputData::from($project)->toArray();
         if ($isSuccess)
@@ -64,7 +54,7 @@ class ProjectController extends Controller
     public function destroy(Project $project): JsonResponse
     {
         // Using Soft Delete
-        $isSuccess = $project->delete();
+        (bool)  $isSuccess = $project->delete();
         if ($isSuccess) {
             // (array) $data = ProjectData::from($project)->toArray();
             // return $this->success($data, 'Project successfully deleted', Response::HTTP_OK);
@@ -81,7 +71,7 @@ class ProjectController extends Controller
         if ($project == null)
             throw new NotFoundHttpException();
 
-        $isSuccess = $project->restore();
+        (bool) $isSuccess = $project->restore();
         if ($isSuccess) {
             (array) $data = ProjectOutputData::from($project)->toArray();
             return $this->success($data, 'Project successfully restored', Response::HTTP_OK);

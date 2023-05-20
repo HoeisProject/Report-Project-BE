@@ -16,13 +16,12 @@ class UserController extends Controller
 
     const route = 'user';
 
-    // Register Method in AuthController@Register
-    // Destroy Method in AdminController
+    // Index using NotAnAdminMiddleware
+    // Register in AuthController@Register
+    // Destroy in AdminController
 
     public function index()
     {
-        // return User::find(1)->projects->toArray();
-        // TODO Authentication Admin Only
         (array) $data = UserOutputData::collection(User::paginate())->toArray();
         // (array) $data = UserData::collection(User::all())->include('projects')->toArray();
         return $this->successPaginate($data, null, Response::HTTP_OK);
