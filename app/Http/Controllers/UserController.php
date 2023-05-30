@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use App\Enum\UserStatusEnum;
+use DateTime;
 
 class UserController extends Controller
 {
@@ -39,36 +40,54 @@ class UserController extends Controller
 
     public function updateProperties(UserUpdatePropertiesData $req, Request $request)
     {
+        $data = array();
         $user = $request->user();
-        if ($req->username != null)
+        if ($req->username != null) {
             $user->username = $req->username;
-
+            $data['username'] = $req->username;
+        }
         // if ($req->email != null)
         //     $user->email = $req->email;
 
-        if ($req->phone_number != null)
+        if ($req->phone_number != null) {
             $user->phone_number = $req->phone_number;
-
-        if ($req->nik != null)
+            $data['phone_number'] = $req->phone_number;
+        }
+        if ($req->nik != null) {
             $user->nik = $req->nik;
+            $data['nik'] = $req->nik;
+        }
+
+        if ($req->user_image != null) {
+            Storage::delete($user->user_image);
+            (string) $date = date('YmdHis');
+            (string) $fileName = 'user-' . $request->user()->email . '-' . $date . '.' . $req->user_image->getClientOriginalExtension();
+            (string) $fileImagePath =  $req->user_image->storeAs('public/user', $fileName);
+            $user->user_image = $fileImagePath;
+            $data['user_image'] = $fileImagePath;
+        }
 
         if ($req->ktp_image != null) {
-            Storage::delete($req->ktp_image);
-            (string) $fileName = 'ktp-' . $request->user()->email . '.' . $req->ktp_image->getClientOriginalExtension();
+            Storage::delete($user->ktp_image);
+            (string)  $date = date('YmdHis');
+            (string) $fileName = 'ktp-' . $request->user()->email . '-' . $date . '.' . $req->ktp_image->getClientOriginalExtension();
             (string) $fileImagePath =  $req->ktp_image->storeAs('public/ktp', $fileName);
             $user->ktp_image = $fileImagePath;
+            $data['ktp_image'] = $fileImagePath;
         }
+        // return $req->all();
 
         (bool) $isSuccess = $user->save();
 
-        if (!$isSuccess) {
-            if ($req->ktp_image != null) {
-                Storage::delete($user->ktp_image);
-            }
-            return $this->error(null, 'Update properties failed', Response::HTTP_BAD_REQUEST);
-        }
 
-        return $req->all();
+
+        if ($isSuccess)
+            return $this->success($data, 'Update properties success', Response::HTTP_OK);
+
+        if ($req->ktp_image != null) {
+            Storage::delete($user->ktp_image);
+        }
+        return $this->error(null, 'Update properties failed', Response::HTTP_BAD_REQUEST);
     }
 
     // NotAnAdminMiddleware

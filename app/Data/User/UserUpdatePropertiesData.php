@@ -25,6 +25,9 @@ class UserUpdatePropertiesData extends Data
         public ?string $nik,
 
         #[Image, Max(1024)] // Max 1024 Kb
+        public ?UploadedFile $user_image,
+
+        #[Image, Max(1024)] // Max 1024 Kb
         public ?UploadedFile $ktp_image
 
     ) {

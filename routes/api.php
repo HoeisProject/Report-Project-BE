@@ -42,7 +42,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     /// User
     Route::apiResource(UserController::route, UserController::class)->except('index', 'store', 'destroy', 'update');
     Route::post('user-verify', [UserController::class, 'verify']);
-    Route::put(UserController::route . '/update-properties', [UserController::class, 'updateProperties']);
+    Route::post(UserController::route . '/update-properties', [UserController::class, 'updateProperties']);
     Route::middleware([OnlyAdminAction::class])->group(function () {
         Route::get(UserController::route, [UserController::class, 'index']);
         Route::put(UserController::route . '/{user}/update-status', [UserController::class, 'updateStatus']);
