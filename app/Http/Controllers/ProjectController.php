@@ -6,8 +6,10 @@ use App\Data\ProjectData;
 use App\Data\Project\ProjectCreateData;
 use App\Data\Project\ProjectOutputData;
 use App\Data\Project\ProjectUpdateData;
+use App\Data\Report\ReportOutputData;
 use App\Exceptions\NotAnAdminException;
 use App\Models\Project;
+use App\Models\Report;
 use App\Models\Role;
 use App\Traits\HttpResponses;
 use Illuminate\Http\JsonResponse;
@@ -29,6 +31,19 @@ class ProjectController extends Controller
         return $this->successPaginate($data, null, Response::HTTP_OK);
     }
 
+    public function reports(string $id, Request $request)
+    {
+        (string) $project = $request->query('project') ? 'project' : '';
+        (string) $user = $request->query('user') ? 'user' : '';
+        (string) $reportStatus = $request->query('reportStatus') ? 'reportStatus' : '';
+
+        $reports = Report::where('project_id', $id)->paginate();
+
+        $data = ReportOutputData::collection($reports)->include($project, $user, $reportStatus)->toArray();
+
+        return $this->successPaginate($data, null, Response::HTTP_OK);
+    }
+
     public function store(ProjectCreateData $req, Request $request): JsonResponse
     {
         (array) $data = Project::create($req->all())->toArray();
@@ -41,7 +56,7 @@ class ProjectController extends Controller
         return $this->success($data, null, Response::HTTP_OK);
     }
 
-    public function update(Request $request,  ProjectUpdateData $req, Project $project): JsonResponse
+    public function update(ProjectUpdateData $req, Project $project): JsonResponse
     {
         (bool) $isSuccess = $project->update($req->all());
         (array) $data = ProjectOutputData::from($project)->toArray();

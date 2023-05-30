@@ -56,7 +56,7 @@ class AuthController extends Controller
 
     public function register(UserRegisterData $req)
     {
-        (string)  $date = date('YmdHis');
+        (string) $date = date('YmdHis');
         (string) $fileName = 'user-' . $req->email . '-' . $date . '.' . $req->user_image->getClientOriginalExtension();
         (string) $fileImagePath =  $req->user_image->storeAs('public/user', $fileName);
         $roleIdEmployee = Role::where('name', 'employee')->first()->id;

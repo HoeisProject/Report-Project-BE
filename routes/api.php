@@ -50,6 +50,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     /// Project
     Route::apiResource(ProjectController::route, ProjectController::class)->except('store', 'update');
+    Route::get(ProjectController::route . '/{id}/reports', [ProjectController::class, 'reports']);
     Route::post(ProjectController::route . '/{id}/restore', [ProjectController::class, 'restore']);
     Route::middleware([OnlyAdminAction::class])->group(function () {
         Route::post(ProjectController::route, [ProjectController::class, 'store']);
@@ -58,6 +59,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     /// Report
     Route::apiResource(ReportController::route, ReportController::class);
+    // Route::get(ReportController::route . '/{projectId}/project', [ReportController::class, 'indexByProject']);
     Route::post(ReportController::route . '/{id}/restore', [ReportController::class, 'restore']);
 
     // Report Media

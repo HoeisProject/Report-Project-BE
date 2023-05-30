@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Data\Report\ReportCreateData;
 use App\Data\Report\ReportOutputData;
 use App\Data\Report\ReportUpdateData;
+use App\Models\Project;
 use App\Models\Report;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
@@ -17,12 +18,27 @@ class ReportController extends Controller
 
     const route = 'report';
 
-    public function index()
+    public function index(Request $request)
     {
-        $data = ReportOutputData::collection(Report::paginate())->include('project', 'reportStatus', 'user')->toArray();
+        (string) $project = $request->query('project') ? 'project' : '';
+        (string) $user = $request->query('user') ? 'user' : '';
+        (string) $reportStatus = $request->query('reportStatus') ? 'reportStatus' : '';
+
+        $data = ReportOutputData::collection(Report::paginate())->include($project, $user, $reportStatus)->toArray();
 
         return $this->successPaginate($data, 'success', Response::HTTP_OK);
     }
+
+    // public function indexByProject(string $projectId, Request $request)
+    // {
+    //     (string) $project = $request->query('project') ? 'project' : '';
+    //     (string) $user = $request->query('user') ? 'user' : '';
+    //     (string) $reportStatus = $request->query('reportStatus') ? 'reportStatus' : '';
+
+    //     $data = ReportOutputData::collection(Report::paginate())->include($project, $user, $reportStatus)->toArray();
+
+    //     return $this->successPaginate($data, 'success', Response::HTTP_OK);
+    // }
 
     public function store(ReportCreateData $req)
     {
