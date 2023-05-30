@@ -56,7 +56,7 @@ class ReportOutputData extends Data
         $userData = Lazy::create(fn () => UserOutputData::from(User::find($report->user_id)));
 
         /** @var Lazy|ReportStatusData|null $reportStatusData */
-        $reportStatusData = Lazy::create(fn () => ReportStatusData::from(ReportStatus::find($report->user_id)));
+        $reportStatusData = Lazy::create(fn () => ReportStatusData::from(ReportStatus::find($report->report_statuses_id)));
 
         $deletedAtData = is_null($report->deleted_at) ? null : new Carbon($report->deleted_at);
 

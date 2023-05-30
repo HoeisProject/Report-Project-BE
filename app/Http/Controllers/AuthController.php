@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Data\User\UserLoginData;
 use App\Data\User\UserRegisterData;
 use App\Data\User\UserOutputData;
+use App\Models\Role;
 use App\Models\User;
 use App\Traits\HttpResponses;
 use Illuminate\Http\JsonResponse;
@@ -22,7 +23,7 @@ class AuthController extends Controller
     {
         $user = $request->user();
 
-        $data = UserOutputData::from($user)->toArray();
+        $data = UserOutputData::from($user)->include('role')->toArray();
 
         return $this->success($data, null, Response::HTTP_OK);
     }
@@ -57,9 +58,10 @@ class AuthController extends Controller
     {
         (string) $fileName = 'user-' . $req->email . '.' . $req->user_image->getClientOriginalExtension();
         (string) $fileImagePath =  $req->user_image->storeAs('public/users', $fileName);
+        $roleIdEmployee = Role::where('name', 'employee')->first()->id;
 
         $user = new User();
-        $user->role_id = $req->role_id;
+        $user->role_id = $roleIdEmployee;
         $user->username = $req->username;
         $user->nickname = $req->nickname;
         $user->email = $req->email;

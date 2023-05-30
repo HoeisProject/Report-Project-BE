@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\UserStatusEnum;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class DevToolController extends Controller
 {
@@ -14,5 +14,9 @@ class DevToolController extends Controller
     public function pingAuthorize(): JsonResponse
     {
         return response()->json('Ping Authorize - Running ...');
+    }
+    public function UserStatusEnum()
+    {
+        return UserStatusEnum::PENDING->value;
     }
 }

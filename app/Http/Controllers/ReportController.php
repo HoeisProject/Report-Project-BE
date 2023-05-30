@@ -19,7 +19,7 @@ class ReportController extends Controller
 
     public function index()
     {
-        $data = ReportOutputData::collection(Report::paginate())->toArray();
+        $data = ReportOutputData::collection(Report::paginate())->include('project', 'reportStatus', 'user')->toArray();
 
         return $this->successPaginate($data, 'success', Response::HTTP_OK);
     }

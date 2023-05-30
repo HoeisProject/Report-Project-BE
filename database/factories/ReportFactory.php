@@ -22,7 +22,7 @@ class ReportFactory extends Factory
         return [
             'project_id' => Project::all()->random()->id,
             'user_id' => User::all()->where('role_id', 2)->random()->id,    // Only Employee can create a report
-            'report_status_id' => ReportStatus::all()->random()->id,
+            'report_statuses_id' => ReportStatus::all()->random()->id,
             'title' => fake()->word,
             'description' => fake()->sentence,
             'position' => fake()->latitude() . '#' . fake()->longitude()

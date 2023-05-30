@@ -22,19 +22,31 @@ Route::get('ping', [DevToolController::class, 'ping']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 
+/// Role
+Route::get(RoleController::route, [RoleController::class, 'index']);
+Route::get(RoleController::route . '/{role}', [RoleController::class, 'show']);
+
+/// Dev Tool
+Route::get('user-status-enum', [DevToolController::class, 'UserStatusEnum']);
 
 // Protected Routes - Only authenticated
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
-    /// Auth and Dev Tool
+    /// Dev Tool
     Route::get('ping-authorize', [DevToolController::class, 'pingAuthorize']);
+
+    /// Auth
     Route::post('logout', [AuthController::class, 'logout']);
     Route::get('current-user', [AuthController::class, 'currentUser']);
 
     /// User
-    Route::apiResource(UserController::route, UserController::class)->except('index', 'store', 'destroy');
+    Route::apiResource(UserController::route, UserController::class)->except('index', 'store', 'destroy', 'update');
     Route::post('user-verify', [UserController::class, 'verify']);
-    Route::get(UserController::route, [UserController::class, 'index'])->middleware([OnlyAdminAction::class]);
+    Route::put(UserController::route . '/update-properties', [UserController::class, 'updateProperties']);
+    Route::middleware([OnlyAdminAction::class])->group(function () {
+        Route::get(UserController::route, [UserController::class, 'index']);
+        Route::put(UserController::route . '/{user}/update-status', [UserController::class, 'updateStatus']);
+    });
 
     /// Project
     Route::apiResource(ProjectController::route, ProjectController::class)->except('store', 'update');
@@ -56,7 +68,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::apiResource(ReportStatusController::route, ReportStatusController::class);
 
     /// Role
-    Route::apiResource(RoleController::route, RoleController::class);
+    Route::apiResource(RoleController::route, RoleController::class)->except(['index', 'show']);
 });
 
 // 405 = Method Not Allowed

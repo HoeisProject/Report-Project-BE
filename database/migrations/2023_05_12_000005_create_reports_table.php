@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('project_id');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('report_status_id');
+            $table->unsignedBigInteger('report_statuses_id');
             $table->string('title');
             $table->string('description');
             $table->string('position');
@@ -27,7 +27,7 @@ return new class extends Migration
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users');
-            $table->foreign('report_status_id')
+            $table->foreign('report_statuses_id')
                 ->references('id')
                 ->on('report_statuses');
         });

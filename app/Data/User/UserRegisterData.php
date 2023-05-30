@@ -18,8 +18,8 @@ use Spatie\LaravelData\Attributes\Validation\In;
 class UserRegisterData extends Data
 {
     public function __construct(
-        #[Required(), IntegerType]
-        public int $role_id,
+        // #[Required(), IntegerType]
+        // public int $role_id,
 
         #[Required(), StringType, Max(255)]
         public string $username,
