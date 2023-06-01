@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Data\Report\ReportCreateData;
 use App\Data\Report\ReportOutputData;
 use App\Data\Report\ReportUpdateData;
+use App\Data\ReportMedia\ReportMediaOutputData;
 use App\Models\Project;
 use App\Models\Report;
+use App\Models\ReportMedia;
+use App\Models\ReportStatus;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -18,27 +21,24 @@ class ReportController extends Controller
 
     const route = 'report';
 
+    /// Ascending by updated_at
     public function index(Request $request)
     {
         (string) $project = $request->query('project') ? 'project' : '';
         (string) $user = $request->query('user') ? 'user' : '';
         (string) $reportStatus = $request->query('reportStatus') ? 'reportStatus' : '';
 
-        $data = ReportOutputData::collection(Report::paginate())->include($project, $user, $reportStatus)->toArray();
+        $data = ReportOutputData::collection(Report::orderBy('updated_at')->paginate())->include($project, $user, $reportStatus)->toArray();
 
         return $this->successPaginate($data, 'success', Response::HTTP_OK);
     }
 
-    // public function indexByProject(string $projectId, Request $request)
-    // {
-    //     (string) $project = $request->query('project') ? 'project' : '';
-    //     (string) $user = $request->query('user') ? 'user' : '';
-    //     (string) $reportStatus = $request->query('reportStatus') ? 'reportStatus' : '';
-
-    //     $data = ReportOutputData::collection(Report::paginate())->include($project, $user, $reportStatus)->toArray();
-
-    //     return $this->successPaginate($data, 'success', Response::HTTP_OK);
-    // }
+    public function reportMedia(string $id)
+    {
+        $reportMedia = ReportMedia::where('report_id', $id)->get();
+        $data = ReportMediaOutputData::collection($reportMedia)->toArray();
+        return $this->success($data, null, Response::HTTP_OK);
+    }
 
     public function store(ReportCreateData $req)
     {
@@ -90,5 +90,17 @@ class ReportController extends Controller
         }
 
         return $this->error(null, 'Project failed restored', Response::HTTP_BAD_REQUEST);
+    }
+    public function updateStatus(Report $report, Request $request)
+    {
+        $request->validate([
+            'status' => ['required']
+        ]);
+        if (!ReportStatus::where('id', $request->status)->exists())
+            return $this->error(null, 'Report status not found', Response::HTTP_BAD_REQUEST);
+
+        $report->report_statuses_id = $request->status;
+        $report->save();
+        return $report->reportStatus;
     }
 }

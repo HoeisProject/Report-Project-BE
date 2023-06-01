@@ -31,17 +31,20 @@ class ProjectController extends Controller
         return $this->successPaginate($data, null, Response::HTTP_OK);
     }
 
-    public function reports(string $id, Request $request)
+    /// Get report by project
+    public function report(Request $request, string $id)
     {
         (string) $project = $request->query('project') ? 'project' : '';
         (string) $user = $request->query('user') ? 'user' : '';
         (string) $reportStatus = $request->query('reportStatus') ? 'reportStatus' : '';
 
-        $reports = Report::where('project_id', $id)->paginate();
+        // $reports = Report::where('project_id', $id)->paginate();
+        $reports = Report::where('project_id', $id)->get();
 
         $data = ReportOutputData::collection($reports)->include($project, $user, $reportStatus)->toArray();
 
-        return $this->successPaginate($data, null, Response::HTTP_OK);
+        // return $this->successPaginate($data, null, Response::HTTP_OK);
+        return $this->success($data, null, Response::HTTP_OK);
     }
 
     public function store(ProjectCreateData $req, Request $request): JsonResponse

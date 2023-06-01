@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Report extends Model
@@ -17,6 +19,17 @@ class Report extends Model
         'title',
         'description',
         'position'
-
     ];
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(Project::class);
+    }
+    public function reportStatus(): BelongsTo
+    {
+        return $this->belongsTo(ReportStatus::class, 'report_statuses_id');
+    }
 }
