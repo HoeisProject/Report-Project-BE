@@ -31,7 +31,12 @@ class ReportMediaOutputData extends Data
         /** @var Lazy|ReportOutputData|null $projectData */
         $reportData = Lazy::create(fn () => ReportOutputData::from(Report::find($reportMedia->report_id)));
 
-        $attachment = Storage::url($reportMedia->attachment);
+        /// TODO Delete this after production
+        $attachment = $reportMedia->attachment;
+        if (!str_contains($reportMedia->attachment, 'http')) {
+            $attachment = Storage::url($reportMedia->attachment);
+        }
+
 
         return new ReportMediaOutputData(
             $reportMedia->id,

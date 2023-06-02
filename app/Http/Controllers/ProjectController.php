@@ -7,15 +7,14 @@ use App\Data\Project\ProjectCreateData;
 use App\Data\Project\ProjectOutputData;
 use App\Data\Project\ProjectUpdateData;
 use App\Data\Report\ReportOutputData;
-use App\Exceptions\NotAnAdminException;
 use App\Models\Project;
 use App\Models\Report;
-use App\Models\Role;
 use App\Traits\HttpResponses;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProjectController extends Controller
 {
@@ -37,9 +36,20 @@ class ProjectController extends Controller
         (string) $project = $request->query('project') ? 'project' : '';
         (string) $user = $request->query('user') ? 'user' : '';
         (string) $reportStatus = $request->query('reportStatus') ? 'reportStatus' : '';
+        (bool) $isRejected = $request->query('showOnlyRejected') ? true : false;  // Included with report status rejected
 
-        // $reports = Report::where('project_id', $id)->paginate();
-        $reports = Report::where('project_id', $id)->get();
+        $rawReports = Report::where('project_id', $id)->get();
+        $reports = [];
+        if ($isRejected)
+            for ($i = 0; $i < count($rawReports); $i++) {
+                if ($rawReports[$i]->reportStatus->name == 'reject')
+                    array_push($reports, $rawReports[$i]);
+            }
+        else
+            for ($i = 0; $i < count($rawReports); $i++) {
+                if ($rawReports[$i]->reportStatus->name != 'reject')
+                    array_push($reports, $rawReports[$i]);
+            }
 
         $data = ReportOutputData::collection($reports)->include($project, $user, $reportStatus)->toArray();
 

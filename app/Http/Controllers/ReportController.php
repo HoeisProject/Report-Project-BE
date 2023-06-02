@@ -6,7 +6,6 @@ use App\Data\Report\ReportCreateData;
 use App\Data\Report\ReportOutputData;
 use App\Data\Report\ReportUpdateData;
 use App\Data\ReportMedia\ReportMediaOutputData;
-use App\Models\Project;
 use App\Models\Report;
 use App\Models\ReportMedia;
 use App\Models\ReportStatus;
