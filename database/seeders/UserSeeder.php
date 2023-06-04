@@ -47,7 +47,7 @@ class UserSeeder extends Seeder
             'email' => 'dio@gmail.com',
             // 'nik' => '', // Nullable
             'phone_number' => fake()->phoneNumber(),
-            'status' => 0,
+            'status' => 1,
             'password' => Hash::make('dio'),
             'user_image' => $imageDummy,
             // 'ktp_image' => $imageDummy
