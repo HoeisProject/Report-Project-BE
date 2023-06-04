@@ -40,6 +40,18 @@ class UserSeeder extends Seeder
             'user_image' => $imageDummy,
             // 'ktp_image' => $imageDummy
         ]);
+        User::create([
+            'role_id' => Role::all()->where('name', 'employee')->first()->id,
+            'username' => 'dio',
+            'nickname' => 'dio',
+            'email' => 'dio@gmail.com',
+            // 'nik' => '', // Nullable
+            'phone_number' => fake()->phoneNumber(),
+            'status' => 0,
+            'password' => Hash::make('dio'),
+            'user_image' => $imageDummy,
+            // 'ktp_image' => $imageDummy
+        ]);
 
         /*
             status:
@@ -49,6 +61,6 @@ class UserSeeder extends Seeder
             3 approve
             4 reject
         */
-        User::factory(5)->create();
+        User::factory(2)->create();
     }
 }

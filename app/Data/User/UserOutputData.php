@@ -41,9 +41,15 @@ class UserOutputData extends Data
         /** @var Lazy|DataCollection $projects */
         $projects = Lazy::create(fn () => ProjectOutputData::collection($user->projects));
 
-        $userImage = Storage::url($user->user_image);
+        if (str_contains($user->user_image, 'http'))
+            $userImage = $user->user_image;
+        else
+            $userImage = Storage::url($user->user_image);
 
-        $ktpImage = $user->ktp_image ? Storage::url($user->ktp_image) : null;
+        if (str_contains($user->ktp_image, 'http'))
+            $ktpImage = $user->ktp_image ? $user->ktp_image : null;
+        else
+            $ktpImage = $user->ktp_image ? Storage::url($user->ktp_image) : null;
 
         return new UserOutputData(
             $user->id,
