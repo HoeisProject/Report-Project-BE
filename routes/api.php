@@ -62,6 +62,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post(ReportController::route . '/{id}/restore', [ReportController::class, 'restore']);
     Route::put(ReportController::route . '/{report}/update-status', [ReportController::class, 'updateStatus']);
     Route::get(ReportController::route . '/{id}/report-media', [ReportController::class, 'reportMedia']);
+    Route::get(ReportController::route . '/{userId}/user', [ReportController::class, 'user']);
 
     // Report Media
     Route::apiResource(ReportMediaController::route, ReportMediaController::class);

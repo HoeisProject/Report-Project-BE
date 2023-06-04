@@ -20,8 +20,9 @@ class ReportCreateData extends Data
         #[Required(), IntegerType]
         public int $user_id,
 
-        #[Required(), IntegerType]
-        public int $report_status_id,
+        /// New Created Report Always has Pending Status
+        // #[Required(), IntegerType]
+        // public int $report_status_id,
 
         #[Required(), StringType, Max(255)]
         public string $title,

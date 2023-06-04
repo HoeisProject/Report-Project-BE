@@ -29,9 +29,22 @@ class ReportController extends Controller
 
         $data = ReportOutputData::collection(Report::orderBy('updated_at')->paginate())->include($project, $user, $reportStatus)->toArray();
 
-        return $this->successPaginate($data, 'success', Response::HTTP_OK);
+        return $this->successPaginate($data, null, Response::HTTP_OK);
     }
 
+    /// Read Report By User
+    public function user(Request $request, string $userId)
+    {
+        (string) $project = $request->query('project') ? 'project' : '';
+        (string) $user = $request->query('user') ? 'user' : '';
+        (string) $reportStatus = $request->query('reportStatus') ? 'reportStatus' : '';
+        $reports = Report::where('user_id', $userId)->get();
+        $data = ReportOutputData::collection($reports)->include($project, $user, $reportStatus)->toArray();
+
+        return $this->success($data, null, Response::HTTP_OK);
+    }
+
+    /// Read Report Media By Report
     public function reportMedia(string $id)
     {
         $reportMedia = ReportMedia::where('report_id', $id)->get();
@@ -41,7 +54,21 @@ class ReportController extends Controller
 
     public function store(ReportCreateData $req)
     {
-        (array) $data = Report::create($req->all())->toArray();
+        // Id for pending status
+        $reportStatusId = ReportStatus::where('name', 'pending')->first()->id;
+        $report = new Report();
+        $report->project_id = $req->project_id;
+        $report->user_id = $req->user_id;   // Report can create on behalf other user, this is why do not use token
+        $report->report_statuses_id = $reportStatusId;
+        $report->title = $req->title;
+        $report->description = $req->description;
+        $report->position = $req->position;
+
+        (bool) $isSuccess = $report->save();
+        if (!$isSuccess) {
+            return $this->error(null, 'Report failed created', Response::HTTP_BAD_REQUEST);
+        }
+        (array) $data = ReportOutputData::from($report)->toArray();
         return $this->success($data, 'Report successfully created', Response::HTTP_CREATED);
     }
 
