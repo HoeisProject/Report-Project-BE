@@ -33,12 +33,18 @@ class ProjectController extends Controller
     /// Get report by project
     public function report(Request $request, string $id)
     {
-        (string) $project = $request->query('project') ? 'project' : '';
-        (string) $user = $request->query('user') ? 'user' : '';
-        (string) $reportStatus = $request->query('reportStatus') ? 'reportStatus' : '';
+        (string) $projectParam = $request->query('project') ? 'project' : '';
+        (string) $userParam = $request->query('user') ? 'user' : '';
+        (string) $reportStatusParam = $request->query('reportStatus') ? 'reportStatus' : '';
         (bool) $isRejected = $request->query('showOnlyRejected') ? true : false;  // Included with report status rejected
 
-        $rawReports = Report::where('project_id', $id)->get();
+        $user = $request->user();
+
+        if ($user->role->name == 'admin')
+            $rawReports = Report::where('project_id', $id)->get();
+        else
+            $rawReports = Report::where('project_id', $id)->where('user_id', $user->id)->get();
+
         $reports = [];
         if ($isRejected)
             for ($i = 0; $i < count($rawReports); $i++) {
@@ -51,7 +57,7 @@ class ProjectController extends Controller
                     array_push($reports, $rawReports[$i]);
             }
 
-        $data = ReportOutputData::collection($reports)->include($project, $user, $reportStatus)->toArray();
+        $data = ReportOutputData::collection($reports)->include($projectParam, $userParam, $reportStatusParam)->toArray();
 
         // return $this->successPaginate($data, null, Response::HTTP_OK);
         return $this->success($data, null, Response::HTTP_OK);

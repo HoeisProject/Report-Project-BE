@@ -23,11 +23,11 @@ class ReportController extends Controller
     /// Ascending by updated_at
     public function index(Request $request)
     {
-        (string) $project = $request->query('project') ? 'project' : '';
-        (string) $user = $request->query('user') ? 'user' : '';
-        (string) $reportStatus = $request->query('reportStatus') ? 'reportStatus' : '';
+        (string) $projectParam = $request->query('project') ? 'project' : '';
+        (string) $userParam = $request->query('user') ? 'user' : '';
+        (string) $reportStatusParam = $request->query('reportStatus') ? 'reportStatus' : '';
 
-        $data = ReportOutputData::collection(Report::orderBy('updated_at')->paginate())->include($project, $user, $reportStatus)->toArray();
+        $data = ReportOutputData::collection(Report::orderBy('updated_at')->paginate())->include($projectParam, $userParam, $reportStatusParam)->toArray();
 
         return $this->successPaginate($data, null, Response::HTTP_OK);
     }
@@ -35,11 +35,11 @@ class ReportController extends Controller
     /// Read Report By User
     public function user(Request $request, string $userId)
     {
-        (string) $project = $request->query('project') ? 'project' : '';
-        (string) $user = $request->query('user') ? 'user' : '';
-        (string) $reportStatus = $request->query('reportStatus') ? 'reportStatus' : '';
+        (string) $projectParam = $request->query('project') ? 'project' : '';
+        (string) $userParam = $request->query('user') ? 'user' : '';
+        (string) $reportStatusParam = $request->query('reportStatus') ? 'reportStatus' : '';
         $reports = Report::where('user_id', $userId)->get();
-        $data = ReportOutputData::collection($reports)->include($project, $user, $reportStatus)->toArray();
+        $data = ReportOutputData::collection($reports)->include($projectParam, $userParam, $reportStatusParam)->toArray();
 
         return $this->success($data, null, Response::HTTP_OK);
     }
