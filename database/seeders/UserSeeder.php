@@ -23,6 +23,7 @@ class UserSeeder extends Seeder
             3 approve
             4 reject
         */
+
         User::create([
             'role_id' => Role::all()->where('name', 'admin')->first()->id,
             'username' => 'admin',
