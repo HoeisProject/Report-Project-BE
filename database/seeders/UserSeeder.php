@@ -49,7 +49,7 @@ class UserSeeder extends Seeder
             'phone_number' => fake()->phoneNumber(),
             'status' => 1,
             'password' => Hash::make('dio'),
-            'user_image' => $imageDummy,
+            'user_image' => 'https://picsum.photos/id/237/300/300',
             // 'ktp_image' => $imageDummy
         ]);
 
