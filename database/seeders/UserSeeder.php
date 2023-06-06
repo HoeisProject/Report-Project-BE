@@ -15,17 +15,24 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        (string) $imageDummy = fake()->imageUrl();
+        /*
+            status:
+            0 admin
+            1 noupload
+            2 pending
+            3 approve
+            4 reject
+        */
         User::create([
             'role_id' => Role::all()->where('name', 'admin')->first()->id,
             'username' => 'admin',
             'nickname' => 'admin',
             'email' => 'admin@gmail.com',
             // 'nik' => '', // Nullable
-            'phone_number' => fake()->phoneNumber(),
+            'phone_number' => '0000000000',
             'status' => 0,
             'password' => Hash::make('admin'),
-            'user_image' => $imageDummy,
+            'user_image' => 'https://picsum.photos/id/217/300/300',
             // 'ktp_image' => $imageDummy
         ]);
         User::create([
@@ -34,10 +41,10 @@ class UserSeeder extends Seeder
             'nickname' => 'developer',
             'email' => 'developer@gmail.com',
             // 'nik' => '', // Nullable
-            'phone_number' => fake()->phoneNumber(),
+            'phone_number' => '111111111',
             'status' => 0,
             'password' => Hash::make('developer'),
-            'user_image' => $imageDummy,
+            'user_image' => 'https://picsum.photos/id/111/300/300',
             // 'ktp_image' => $imageDummy
         ]);
         User::create([
@@ -52,15 +59,29 @@ class UserSeeder extends Seeder
             'user_image' => 'https://picsum.photos/id/91/300/300',
             // 'ktp_image' => $imageDummy
         ]);
-
-        /*
-            status:
-            0 admin
-            1 noupload
-            2 pending
-            3 approve
-            4 reject
-        */
-        User::factory(2)->create();
+        User::create([
+            'role_id' => Role::all()->where('name', 'employee')->first()->id,
+            'username' => 'kanan',
+            'nickname' => 'kanan',
+            'email' => 'kanan@gmail.com',
+            // 'nik' => '', // Nullable
+            'phone_number' => fake()->phoneNumber(),
+            'status' => 1,
+            'password' => Hash::make('kanan'),
+            'user_image' => 'https://picsum.photos/id/225/300/300',
+            // 'ktp_image' => $imageDummy
+        ]);
+        User::create([
+            'role_id' => Role::all()->where('name', 'employee')->first()->id,
+            'username' => 'kiri',
+            'nickname' => 'kiri',
+            'email' => 'kiri@gmail.com',
+            // 'nik' => '', // Nullable
+            'phone_number' => fake()->phoneNumber(),
+            'status' => 1,
+            'password' => Hash::make('kiri'),
+            'user_image' => 'https://picsum.photos/id/239/300/300',
+            // 'ktp_image' => $imageDummy
+        ]);
     }
 }
