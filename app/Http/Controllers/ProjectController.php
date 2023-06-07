@@ -22,7 +22,7 @@ class ProjectController extends Controller
 
     const route = 'project';
 
-    public function index(): JsonResponse
+    public function index()
     {
         // return Project::withTrashed()->get();
         // (array) $data = ProjectOutputData::collection(Project::withTrashed()->paginate())->include('user.role')->toArray();  // With Role
@@ -35,7 +35,7 @@ class ProjectController extends Controller
     {
         (string) $projectParam = $request->query('project') ? 'project' : '';
         (string) $userParam = $request->query('user') ? 'user' : '';
-        (string) $reportStatusParam = $request->query('reportStatus') ? 'reportStatus' : '';
+        (string) $reportStatusParam = $request->query('reportStatus')  ? 'reportStatus' : '';
         (bool) $isRejected = $request->query('showOnlyRejected') ? true : false;  // Included with report status rejected
 
         $user = $request->user();

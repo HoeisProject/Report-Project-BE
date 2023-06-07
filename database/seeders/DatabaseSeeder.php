@@ -26,7 +26,12 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             ProjectSeeder::class,
             ReportSeeder::class,
-            ReportMediaSeeder::class
+            ReportMediaSeeder::class,
+            TimeSpanSeeder::class,
+            MoneyEstimateSeeder::class,
+            ManpowerSeeder::class,
+            MaterialFeasibilitySeeder::class,
+            ProjectPrioritySeeder::class
         ]);
     }
 }

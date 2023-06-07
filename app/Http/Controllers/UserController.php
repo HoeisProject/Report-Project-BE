@@ -26,7 +26,7 @@ class UserController extends Controller
     // NotAnAdminMiddleware
     public function index()
     {
-        (array) $data = UserOutputData::collection(User::paginate())->toArray();
+        (array) $data = UserOutputData::collection(User::paginate())->include('role')->toArray();
         // (array) $data = UserData::collection(User::all())->include('projects')->toArray();
         return $this->successPaginate($data, null, Response::HTTP_OK);
     }

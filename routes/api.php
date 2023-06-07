@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DevToolController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectPriorityController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReportMediaController;
 use App\Http\Controllers\ReportStatusController;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('ping', [DevToolController::class, 'ping']);
+Route::get(ProjectPriorityController::route, [ProjectPriorityController::class, 'saw']);
 
 /// Authentication
 Route::post('login', [AuthController::class, 'login']);
