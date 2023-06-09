@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectPriorityController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReportMediaController;
 use App\Http\Controllers\ReportStatusController;
@@ -51,6 +52,8 @@ class Handler extends ExceptionHandler
                 return $this->notFound('report data not found');
             if ($req->is('*/' . ReportMediaController::route . '/*'))
                 return $this->notFound('report media data not found');
+            if ($req->is('*/' . ProjectPriorityController::route . '/*'))
+                return $this->notFound('project priority data not found');
         });
     }
 }

@@ -10,7 +10,7 @@ class MaterialFeasibility extends Model
     use HasFactory;
 
     protected $fillable = [
-        'value',
+        'description',
         'weight'
     ];
 }

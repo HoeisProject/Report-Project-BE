@@ -19,10 +19,10 @@ class ProjectPrioritySeeder extends Seeder
         for ($i = 0; $i < $projects->count(); $i++) {
             ProjectPriority::create([
                 'project_id' => $projects[$i]->id,
-                'time_spans_id' => random_int(1, 5),
-                'money_estimates_id' => random_int(1, 5),
-                'manpowers_id' => random_int(1, 5),
-                'material_feasibilities_id' => random_int(1, 5)
+                'time_span_id' => random_int(1, 5),
+                'money_estimate_id' => random_int(1, 5),
+                'manpower_id' => random_int(1, 5),
+                'material_feasibility_id' => random_int(1, 5)
             ]);
         }
     }

@@ -46,11 +46,11 @@ class ReportOutputData extends Data
     public static function fromModel(Report $report): ReportOutputData
     {
 
-        /** @var Lazy|ProjectData|null $projectData */
+        /** @var Lazy|ProjectOutputData|null $projectData */
         // $projectData = Lazy::create(fn () => ProjectOutputData::from(Project::find($report->project_id)));
         $projectData = Lazy::create(fn () => ProjectOutputData::from($report->project));
 
-        /** @var Lazy|UserData|null $userData */
+        /** @var Lazy|UserOutputData|null $userData */
         // $userData = Lazy::create(fn () => UserOutputData::from(User::find($report->user_id)));
         $userData = Lazy::create(fn () => UserOutputData::from($report->user));
 

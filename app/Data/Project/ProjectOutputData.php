@@ -2,8 +2,10 @@
 
 namespace App\Data\Project;
 
+use App\Data\ProjectPriority\ProjectPriorityOutputData;
 use App\Data\User\UserOutputData;
 use App\Models\Project;
+use App\Models\ProjectPriority;
 use App\Models\User;
 use Carbon\Carbon;
 use Spatie\LaravelData\Attributes\MapName;
@@ -22,6 +24,8 @@ class ProjectOutputData extends Data
         public string $id,
 
         public Lazy | UserOutputData $user,
+
+        public Lazy | ProjectPriorityOutputData $projectPriority,
 
         public string $name,
 
@@ -56,8 +60,12 @@ class ProjectOutputData extends Data
     public static function fromModel(Project $project): ProjectOutputData
     {
         // dd($project);
-        /** @var Lazy|UserData|null $userData */
+        /** @var Lazy|UserOutputData|null $userData */
         $userData = Lazy::create(fn () => UserOutputData::from(User::find($project->user_id))->include('role'));
+
+        $projectPriority = ProjectPriority::where('project_id', $project->id)->first();
+        /** @var Lazy|ProjectPriorityOutputData|null $projectPriorityData */
+        $projectPriorityData = Lazy::create(fn () => ProjectPriorityOutputData::from($projectPriority));
 
         // Kamprettt bener ini solusi :) -> PHP Worst Programming Language
         $deletedAtData = is_null($project->deleted_at) ? null : new Carbon($project->deleted_at);
@@ -65,6 +73,7 @@ class ProjectOutputData extends Data
         return new ProjectOutputData(
             $project->id,
             $userData,
+            $projectPriorityData,
             $project->name,
             $project->description,
             new  Carbon($project->start_date),

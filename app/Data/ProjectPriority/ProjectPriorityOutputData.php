@@ -2,52 +2,54 @@
 
 namespace App\Data\ProjectPriority;
 
-use App\Data\Project\ProjectOutputData;
-use App\Data\ReportStatus\ReportStatusData;
-use App\Data\User\UserOutputData;
+use App\Models\Manpower;
+use App\Models\MaterialFeasibility;
+use App\Models\MoneyEstimate;
 use App\Models\Project;
-use App\Models\Report;
-use Carbon\Carbon;
+use App\Models\ProjectPriority;
+use App\Models\TimeSpan;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Lazy;
 use Spatie\LaravelData\Attributes\MapName;
-use Spatie\LaravelData\Attributes\WithCast;
-use Spatie\LaravelData\Casts\DateTimeInterfaceCast;
 use Spatie\LaravelData\Mappers\SnakeCaseMapper;
-
 
 #[MapName(SnakeCaseMapper::class)]
 class ProjectPriorityOutputData extends Data
 {
     public function __construct(
         //
-        public float $time_spans,
+        public string $id,
 
-        public float $money_estimates,
+        public string $project_id,
 
-        public float $manpowers,
+        public TimeSpan $time_span,
 
-        public float $material_feasibilities,
+        public MoneyEstimate $money_estimate,
 
-        public float $v,
+        public Manpower $manpower,
 
-        public Lazy | ProjectOutputData $project,
+        public MaterialFeasibility $material_feasibility,
     ) {
     }
 
-    public static function fromSaw($saw): ProjectPriorityOutputData
+    static public function fromProjectPriority($data): ProjectPriorityOutputData
     {
 
-        $project = Project::find($saw->project_id);
-        $projectData = Lazy::create(fn () => ProjectOutputData::from($project));
+        $timeSpanData = TimeSpan::find($data->time_span_id)->first(); //->toArray();
+
+        $monesEstimateData = MoneyEstimate::find($data->money_estimate_id); //->first()->toArray();
+
+        $manpowerData = Manpower::find($data->manpower_id)->first(); //->toArray();
+
+        $materialFeasibilityData = MaterialFeasibility::find($data->material_feasibility_id)->first(); //->toArray();
 
         return new ProjectPriorityOutputData(
-            $saw->time_spans,
-            $saw->money_estimates,
-            $saw->manpowers,
-            $saw->material_feasibilities,
-            $saw->v,
-            $projectData
+            $data->id,
+            $data->project_id,
+            $timeSpanData,
+            $monesEstimateData,
+            $manpowerData,
+            $materialFeasibilityData,
         );
     }
 }

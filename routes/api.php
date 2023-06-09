@@ -18,7 +18,13 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('ping', [DevToolController::class, 'ping']);
-Route::get(ProjectPriorityController::route, [ProjectPriorityController::class, 'saw']);
+Route::get(ProjectPriorityController::route . '/{projectId}/show', [ProjectPriorityController::class, 'show']);
+Route::post(ProjectPriorityController::route, [ProjectPriorityController::class, 'store']);
+Route::post(ProjectPriorityController::route . '/calculate', [ProjectPriorityController::class, 'saw']);
+Route::get(ProjectPriorityController::route . '/time-span', [ProjectPriorityController::class, 'timeSpan']);
+Route::get(ProjectPriorityController::route . '/money-estimate', [ProjectPriorityController::class, 'moneyEstimate']);
+Route::get(ProjectPriorityController::route . '/manpower', [ProjectPriorityController::class, 'manpower']);
+Route::get(ProjectPriorityController::route . '/material-feasibility', [ProjectPriorityController::class, 'materialFeasibility']);
 
 /// Authentication
 Route::post('login', [AuthController::class, 'login']);

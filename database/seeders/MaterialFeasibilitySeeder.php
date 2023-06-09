@@ -14,23 +14,23 @@ class MaterialFeasibilitySeeder extends Seeder
     public function run(): void
     {
         MaterialFeasibility::create([
-            'value' => 'Very Bad',
+            'description' => 'Very Bad',
             'weight' => 1
         ]);
         MaterialFeasibility::create([
-            'value' => 'Bad',
+            'description' => 'Bad',
             'weight' => 2
         ]);
         MaterialFeasibility::create([
-            'value' => 'Normal',
+            'description' => 'Normal',
             'weight' => 3
         ]);
         MaterialFeasibility::create([
-            'value' => 'Good',
+            'description' => 'Good',
             'weight' => 4
         ]);
         MaterialFeasibility::create([
-            'value' => 'Very Good',
+            'description' => 'Very Good',
             'weight' => 5
         ]);
     }

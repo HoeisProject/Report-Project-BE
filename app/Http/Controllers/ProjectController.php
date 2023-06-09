@@ -8,6 +8,7 @@ use App\Data\Project\ProjectOutputData;
 use App\Data\Project\ProjectUpdateData;
 use App\Data\Report\ReportOutputData;
 use App\Models\Project;
+use App\Models\ProjectPriority;
 use App\Models\Report;
 use App\Traits\HttpResponses;
 use Illuminate\Http\JsonResponse;
@@ -22,11 +23,12 @@ class ProjectController extends Controller
 
     const route = 'project';
 
-    public function index()
+    public function index(Request $request)
     {
+        (string) $projectPriorityParam = $request->query('projectPriority') ? 'projectPriority' : '';
         // return Project::withTrashed()->get();
         // (array) $data = ProjectOutputData::collection(Project::withTrashed()->paginate())->include('user.role')->toArray();  // With Role
-        (array) $data = ProjectOutputData::collection(Project::withTrashed()->paginate())->include('user')->toArray();
+        (array) $data = ProjectOutputData::collection(Project::withTrashed()->paginate())->include('user', $projectPriorityParam)->toArray();
         return $this->successPaginate($data, null, Response::HTTP_OK);
     }
 
@@ -63,15 +65,16 @@ class ProjectController extends Controller
         return $this->success($data, null, Response::HTTP_OK);
     }
 
-    public function store(ProjectCreateData $req, Request $request): JsonResponse
+    public function store(ProjectCreateData $req): JsonResponse
     {
         (array) $data = Project::create($req->all())->toArray();
         return $this->success($data, 'Project successfully created', Response::HTTP_CREATED);
     }
 
-    public function show(Project $project): JsonResponse
+    public function show(Project $project, Request $request)
     {
-        (array) $data = ProjectOutputData::from($project)->toArray();
+        (string) $projectPriorityParam = $request->query('projectPriority') ? 'projectPriority' : '';
+        (array) $data = ProjectOutputData::from($project)->include($projectPriorityParam)->toArray();
         return $this->success($data, null, Response::HTTP_OK);
     }
 

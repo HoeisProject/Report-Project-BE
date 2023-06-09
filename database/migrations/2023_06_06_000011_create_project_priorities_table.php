@@ -13,27 +13,27 @@ return new class extends Migration
     {
         Schema::create('project_priorities', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('project_id');
-            $table->unsignedBigInteger('time_spans_id');
-            $table->unsignedBigInteger('money_estimates_id');
-            $table->unsignedBigInteger('manpowers_id');
-            $table->unsignedBigInteger('material_feasibilities_id');
+            $table->unsignedBigInteger('project_id')->unique('project_id');
+            $table->unsignedBigInteger('time_span_id');
+            $table->unsignedBigInteger('money_estimate_id');
+            $table->unsignedBigInteger('manpower_id');
+            $table->unsignedBigInteger('material_feasibility_id');
             $table->timestamps();
-            // $table->foreign('project_id')
-            //     ->references('id')
-            //     ->on('projects');
-            // $table->foreign('time_spans_id')
-            //     ->references('id')
-            //     ->on('time_spans');
-            // $table->foreign('money_estimates_id')
-            //     ->references('id')
-            //     ->on('money_estimates');
-            // $table->foreign('manpowers_id')
-            //     ->references('id')
-            //     ->on('manpowers');
-            // $table->foreign('material_feasibilities_id')
-            //     ->references('id')
-            //     ->on('material_feasibilities');
+            $table->foreign('project_id')
+                ->references('id')
+                ->on('projects');
+            $table->foreign('time_span_id')
+                ->references('id')
+                ->on('time_spans');
+            $table->foreign('money_estimate_id')
+                ->references('id')
+                ->on('money_estimates');
+            $table->foreign('manpower_id')
+                ->references('id')
+                ->on('manpowers');
+            $table->foreign('material_feasibility_id')
+                ->references('id')
+                ->on('material_feasibilities');
         });
     }
 
