@@ -53,7 +53,6 @@ class ProjectPriorityController extends Controller
     }
     public function store(ProjectPriorityCreateData $req)
     {
-        // (array) $data = ProjectPriority::create($req->all())->toArray();
         (array) $data =  ProjectPriority::updateOrCreate([
             'project_id' => $req->project_id
         ], [
@@ -80,6 +79,74 @@ class ProjectPriorityController extends Controller
     material_feasibility
     */
     public function saw(ProjectPriorityInputData $req)
+    {
+        $w = [$req->time_span, $req->money_estimate, $req->manpower, $req->material_feasibility];
+
+        $projects = DB::table('project_priorities')
+            ->join('time_spans', 'project_priorities.time_span_id', '=', 'time_spans.id')
+            ->join('money_estimates', 'project_priorities.money_estimate_id', '=', 'money_estimates.id')
+            ->join('manpowers', 'project_priorities.manpower_id', '=', 'manpowers.id')
+            ->join('material_feasibilities', 'project_priorities.material_feasibility_id', '=', 'material_feasibilities.id')
+            ->select(
+                'project_priorities.project_id as project_id',
+                'time_spans.weight as time_spans_weight',
+                'money_estimates.weight as money_estimates_weight',
+                'manpowers.weight as manpowers_weight',
+                'material_feasibilities.weight as material_feasibilities_weight'
+            )->get();
+
+        $minTimeSpanWeight = DB::table('project_priorities')
+            ->join('time_spans', 'project_priorities.id', '=', 'time_spans.id')
+            ->min('time_spans.weight');
+        $minMoneyEstimate = DB::table('project_priorities')
+            ->join('money_estimates', 'project_priorities.id', '=', 'money_estimates.id')
+            ->min('money_estimates.weight');
+        $maxManpower = DB::table('project_priorities')
+            ->join('manpowers', 'project_priorities.id', '=', 'manpowers.id')
+            ->max('manpowers.weight');
+        $maxMaterialFeasibility = DB::table('project_priorities')
+            ->join('material_feasibilities', 'project_priorities.id', '=', 'material_feasibilities.id')
+            ->max('material_feasibilities.weight');
+
+        /// Normalisasi (n)
+        $r = collect();
+        foreach ($projects as $i => $project) {
+            $temp = new stdClass;
+            $temp->project_id = $project->project_id;
+            $temp->time_span = $minTimeSpanWeight / $project->time_spans_weight;
+            $temp->money_estimate = $minMoneyEstimate / $project->money_estimates_weight;
+            $temp->manpower = $project->manpowers_weight / $maxManpower;
+            $temp->material_feasibility =  $project->material_feasibilities_weight / $maxMaterialFeasibility;
+
+            $r->push($temp);
+        }
+
+        /// Nilai Preferensi (v)
+        $v = collect();
+        foreach ($r as $i => $r_norm) {
+            $temp = new stdClass;
+            $temp->project_id = $r_norm->project_id;
+            $temp->time_span = $w[0] * $r_norm->time_span;
+            $temp->money_estimate = $w[1] * $r_norm->money_estimate;
+            $temp->manpower = $w[2] * $r_norm->manpower;
+            $temp->material_feasibility = $w[3] * $r_norm->material_feasibility;
+            $temp->v = $temp->time_span + $temp->money_estimate + $temp->manpower + $temp->material_feasibility;
+
+            $v->push($temp);
+        }
+
+        // Sorting berdasarkan Nilai Preferensi
+        $sort = $v->toArray();
+        usort($sort, function ($a, $b) {
+            if ($a->v == $b->v) return 0;
+            return ($a->v > $b->v) ? -1 : 1;
+        });
+
+        (array) $data = ProjectPriorityCalculateOutputData::collection($sort)->include('project')->toArray();
+        return $this->success($data, null);
+    }
+
+    public function sawProve(ProjectPriorityInputData $req)
     {
         // return $req;
         $w = [$req->time_span, $req->money_estimate, $req->manpower, $req->material_feasibility];
@@ -122,13 +189,14 @@ class ProjectPriorityController extends Controller
             $temp->project_id = $project->project_id;
             $temp->time_span = $minTimeSpanWeight / $project->time_spans_weight;
             $temp->money_estimate = $minMoneyEstimate / $project->money_estimates_weight;
-            $temp->manpower = $maxManpower / $project->manpowers_weight;
-            $temp->material_feasibility = $maxMaterialFeasibility / $project->material_feasibilities_weight;
+            $temp->manpower = $project->manpowers_weight / $maxManpower;
+            $temp->material_feasibility =  $project->material_feasibilities_weight / $maxMaterialFeasibility;
 
             $r->push($temp);
         }
         // dd($r);
         // dd($r[0]->project_id);
+        // return $r;
 
         /// Nilai Preferensi (v)
         $v = collect();

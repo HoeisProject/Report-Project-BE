@@ -15,8 +15,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ReportMediaController extends Controller
 {
-    // TODO
-
     use HttpResponses;
 
     const route = 'report-media';

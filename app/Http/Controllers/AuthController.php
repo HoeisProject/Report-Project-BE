@@ -8,7 +8,6 @@ use App\Data\User\UserOutputData;
 use App\Models\Role;
 use App\Models\User;
 use App\Traits\HttpResponses;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;

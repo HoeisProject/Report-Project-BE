@@ -2,20 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Data\ProjectData;
 use App\Data\Project\ProjectCreateData;
 use App\Data\Project\ProjectOutputData;
 use App\Data\Project\ProjectUpdateData;
 use App\Data\Report\ReportOutputData;
 use App\Models\Project;
-use App\Models\ProjectPriority;
 use App\Models\Report;
 use App\Traits\HttpResponses;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Illuminate\Database\Eloquent\Builder;
 
 class ProjectController extends Controller
 {

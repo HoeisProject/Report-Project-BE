@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('report_statuses_id');
             $table->string('title');
-            $table->string('description');
+            $table->string('description', 1000);
             $table->string('position');
             $table->softDeletes();
             $table->timestamps();

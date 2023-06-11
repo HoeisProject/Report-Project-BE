@@ -15,6 +15,7 @@ class ProjectSeeder extends Seeder
      */
     public function run(): void
     {
+        // TOTAL 12
         // Project::factory(5)->create();
         $adminId = User::all()->where('role_id', 1)->random()->id;
         Project::create([
@@ -45,6 +46,7 @@ class ProjectSeeder extends Seeder
             'start_date' => fake()->dateTimeBetween('-1 month', '+1 month'),
             'end_date' => date('Y-m-d', strtotime('+2 month'))
         ]);
+        // 4
         Project::create([
             'user_id' => $adminId,
             'name' => 'Renovasi Marketing Office Konoha City',
@@ -73,5 +75,35 @@ class ProjectSeeder extends Seeder
             'start_date' => fake()->dateTimeBetween('-1 month', '+1 month'),
             'end_date' => date('Y-m-d', strtotime('+2 month'))
         ]);
+        // 8
+        Project::create([
+            'user_id' => $adminId,
+            'name' => 'Pengadaan AVR',
+            'description' => 'Supply AVR 1250kva & 3000kva',
+            'start_date' => fake()->dateTimeBetween('-1 month', '+1 month'),
+            'end_date' => date('Y-m-d', strtotime('+2 month'))
+        ]);
+        Project::create([
+            'user_id' => $adminId,
+            'name' => 'Panel listrik',
+            'description' => 'Instalasi panel listrik',
+            'start_date' => fake()->dateTimeBetween('-1 month', '+1 month'),
+            'end_date' => date('Y-m-d', strtotime('+2 month'))
+        ]);
+        Project::create([
+            'user_id' => $adminId,
+            'name' => 'Dehumidifier',
+            'description' => 'Instalasi dehumidifier',
+            'start_date' => fake()->dateTimeBetween('-1 month', '+1 month'),
+            'end_date' => date('Y-m-d', strtotime('+2 month'))
+        ]);
+        Project::create([
+            'user_id' => $adminId,
+            'name' => 'Fire Fighting',
+            'description' => 'Fire fighting (water springkle dan CO2 powder)',
+            'start_date' => fake()->dateTimeBetween('-1 month', '+1 month'),
+            'end_date' => date('Y-m-d', strtotime('+2 month'))
+        ]);
+        // 12
     }
 }

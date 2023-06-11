@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use App\Enum\UserStatusEnum;
-use DateTime;
 
 class UserController extends Controller
 {

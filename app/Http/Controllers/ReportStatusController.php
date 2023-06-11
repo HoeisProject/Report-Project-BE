@@ -7,7 +7,6 @@ use App\Models\ReportStatus;
 use App\Data\ReportStatus\ReportStatusData;
 use App\Traits\HttpResponses;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ReportStatusController extends Controller

@@ -5,11 +5,8 @@ namespace App\Data\ProjectPriority;
 use App\Models\Manpower;
 use App\Models\MaterialFeasibility;
 use App\Models\MoneyEstimate;
-use App\Models\Project;
-use App\Models\ProjectPriority;
 use App\Models\TimeSpan;
 use Spatie\LaravelData\Data;
-use Spatie\LaravelData\Lazy;
 use Spatie\LaravelData\Attributes\MapName;
 use Spatie\LaravelData\Mappers\SnakeCaseMapper;
 
