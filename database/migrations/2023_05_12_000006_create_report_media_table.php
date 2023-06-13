@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('report_media', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('report_id');
-            $table->string('attachment');
+            $table->string('attachment', 255);
             $table->softDeletes();
             $table->timestamps();
             $table->foreign('report_id')

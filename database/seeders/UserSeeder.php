@@ -23,6 +23,10 @@ class UserSeeder extends Seeder
             3 approve
             4 reject
         */
+        // 832
+        // 836
+        // 839
+        // 838
 
         User::create([
             'role_id' => Role::all()->where('name', 'admin')->first()->id,
@@ -33,7 +37,7 @@ class UserSeeder extends Seeder
             'phone_number' => '0000000000',
             'status' => 0,
             'password' => Hash::make('admin'),
-            'user_image' => 'https://picsum.photos/id/217/300/300',
+            'user_image' => 'https://picsum.photos/id/64/300/300',
             // 'ktp_image' => $imageDummy
         ]);
         User::create([
@@ -45,19 +49,20 @@ class UserSeeder extends Seeder
             'phone_number' => '111111111',
             'status' => 0,
             'password' => Hash::make('developer'),
-            'user_image' => 'https://picsum.photos/id/111/300/300',
+            'user_image' => 'https://picsum.photos/id/822/300/300',
             // 'ktp_image' => $imageDummy
         ]);
         User::create([
             'role_id' => Role::all()->where('name', 'employee')->first()->id,
-            'username' => 'dio',
-            'nickname' => 'dio',
-            'email' => 'dio@gmail.com',
-            // 'nik' => '', // Nullable
+            'username' => 'rucci',
+            'nickname' => 'rucci',
+            'email' => 'rucci@gmail.com',
+            'nik' => '0123456789321654', // Nullable
             'phone_number' => fake()->phoneNumber(),
-            'status' => 1,
-            'password' => Hash::make('dio'),
-            'user_image' => 'https://picsum.photos/id/91/300/300',
+            'status' => 3,
+            'password' => Hash::make('rucci'),
+            // 'user_image' => 'https://picsum.photos/id/342/300/300',
+            'user_image' => 'https://picsum.photos/id/823/300/300',
             // 'ktp_image' => $imageDummy
         ]);
         User::create([
@@ -69,7 +74,7 @@ class UserSeeder extends Seeder
             'phone_number' => fake()->phoneNumber(),
             'status' => 1,
             'password' => Hash::make('kanan'),
-            'user_image' => 'https://picsum.photos/id/225/300/300',
+            'user_image' => 'https://picsum.photos/id/453/300/300',
             // 'ktp_image' => $imageDummy
         ]);
         User::create([
@@ -81,7 +86,7 @@ class UserSeeder extends Seeder
             'phone_number' => fake()->phoneNumber(),
             'status' => 1,
             'password' => Hash::make('kiri'),
-            'user_image' => 'https://picsum.photos/id/239/300/300',
+            'user_image' => 'https://picsum.photos/id/804/300/300',
             // 'ktp_image' => $imageDummy
         ]);
     }

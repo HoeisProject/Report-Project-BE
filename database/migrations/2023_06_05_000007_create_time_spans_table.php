@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('time_spans', function (Blueprint $table) {
             $table->id();
-            $table->unsignedSmallInteger('min');
-            $table->unsignedSmallInteger('max');
+            $table->unsignedTinyInteger('min');
+            $table->unsignedTinyInteger('max');
             $table->unsignedSmallInteger('weight');
             $table->timestamps();
         });

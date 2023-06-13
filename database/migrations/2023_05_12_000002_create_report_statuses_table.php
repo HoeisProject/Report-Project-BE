@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('report_statuses', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description');
+            $table->string('name', 50);
+            $table->string('description', 100);
             $table->timestamps();
         });
     }

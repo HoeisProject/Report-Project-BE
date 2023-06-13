@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('name');
-            $table->string('description');
+            $table->string('name', 100);
+            $table->string('description', 255);
             $table->timestamp('start_date');
             $table->timestamp('end_date');
             $table->softDeletes();

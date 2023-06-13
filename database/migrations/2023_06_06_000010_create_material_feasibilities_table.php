@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('material_feasibilities', function (Blueprint $table) {
             $table->id();
-            $table->string('description');
+            $table->string('description', 50);
             $table->unsignedSmallInteger('weight');
             $table->timestamps();
         });

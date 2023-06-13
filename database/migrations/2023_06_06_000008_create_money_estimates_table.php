@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->double('min');
             $table->double('max');
-            $table->unsignedBigInteger('weight');
+            $table->unsignedSmallInteger('weight');
             $table->timestamps();
         });
     }
