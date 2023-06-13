@@ -62,8 +62,9 @@ class UserSeeder extends Seeder
             'status' => 3,
             'password' => Hash::make('rucci'),
             // 'user_image' => 'https://picsum.photos/id/342/300/300',
-            'user_image' => 'https://picsum.photos/id/823/300/300',
-            // 'ktp_image' => $imageDummy
+            // 'user_image' => 'https://picsum.photos/id/823/300/300',
+            'user_image' => 'user/user-rucci@gmail.com-20230613.jpg',
+            'ktp_image' => 'ktp/ktp-rucci@gmail.com.png'
         ]);
         User::create([
             'role_id' => Role::all()->where('name', 'employee')->first()->id,
