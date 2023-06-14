@@ -14,5 +14,13 @@ class ReportSeeder extends Seeder
     public function run(): void
     {
         Report::factory(50)->create();
+        Report::create([
+            'project_id' => '',
+            'user_id' => '',
+            'report_statuses_id' => '',
+            'title' => '',
+            'description' => '',
+            'position' => ''
+        ]);
     }
 }
