@@ -20,57 +20,57 @@ class ProjectSeeder extends Seeder
         $adminId = User::all()->where('role_id', 1)->random()->id;
         Project::create([
             'user_id' => $adminId,
-            'name' => 'Dragonfly Valve Lt. 1 Tower 2',
-            'description' => 'Supply keystone brand, Instalasi dragonfly valve',
+            'name' => 'Water Valve toko Shihlin',
+            'description' => 'Supply Water Valve, Instalasi Water valve',
             'start_date' => fake()->dateTimeBetween('-1 month', '+3 month'),
             'end_date' => date('Y-m-d', strtotime('+2 month'))
         ]);
         Project::create([
             'user_id' => $adminId,
-            'name' => 'Pergantian ACB Basemenet Plaza Lt 2',
+            'name' => 'Pergantian ACB Basement Plaza Lt 2',
             'description' => 'Supply ACB, Modifikasi busbar panel',
             'start_date' => fake()->dateTimeBetween('-1 month', '+1 month'),
             'end_date' => date('Y-m-d', strtotime('+2 month'))
         ]);
         Project::create([
             'user_id' => $adminId,
-            'name' => 'Renovasi Coffee Shop Pejaten Blok A',
-            'description' => 'Design ME, Instalasi penerangan lampu, Instalasi Fire alarm dan springkle, Pengadaan panel penerangan',
+            'name' => 'Renovasi Boska Coffee Shop',
+            'description' => 'Design ME, Instalasi penerangan lampu, Instalasi Fire alarm dan sprinkler, Pengadaan panel penerangan',
             'start_date' => fake()->dateTimeBetween('-1 month', '+1 month'),
             'end_date' => date('Y-m-d', strtotime('+2 month'))
         ]);
         Project::create([
             'user_id' => $adminId,
-            'name' => 'Saving energy / inverter system',
-            'description' => 'Design saving energy CHWP, Perakitan panel inverter, Instalasi inverter dan energy saving',
+            'name' => 'instalasi inverter system di Plaza Semanggi',
+            'description' => 'Perakitan panel inverter, Instalasi inverter dan energy saving',
             'start_date' => fake()->dateTimeBetween('-1 month', '+1 month'),
             'end_date' => date('Y-m-d', strtotime('+2 month'))
         ]);
         // 4
         Project::create([
             'user_id' => $adminId,
-            'name' => 'Renovasi Marketing Office Konoha City',
-            'description' => 'Pengadaan york, Instalasi mesin pendingin, Pengadaan system VAC',
+            'name' => 'Renovasi Marketing Office di Summarecon Mall Bekasi',
+            'description' => 'Pengadaan system VAC, Instalasi mesin pendingin',
             'start_date' => fake()->dateTimeBetween('-1 month', '+1 month'),
             'end_date' => date('Y-m-d', strtotime('+2 month'))
         ]);
         Project::create([
             'user_id' => $adminId,
-            'name' => 'Design & built meeting room',
+            'name' => 'Design & built meeting room di BCA office',
             'description' => 'Design interior, Pekerjaan kelistrikan',
             'start_date' => fake()->dateTimeBetween('-1 month', '+1 month'),
             'end_date' => date('Y-m-d', strtotime('+2 month'))
         ]);
         Project::create([
             'user_id' => $adminId,
-            'name' => 'Pemasangan CCTV',
+            'name' => 'Pemasangan CCTV di Taman Anggrek',
             'description' => 'Supply & instalasi CCTV, Supply alat recording',
             'start_date' => fake()->dateTimeBetween('-1 month', '+1 month'),
             'end_date' => date('Y-m-d', strtotime('+2 month'))
         ]);
         Project::create([
             'user_id' => $adminId,
-            'name' => 'Pengadaan dan instalasi humidifier',
+            'name' => 'Pengadaan dan instalasi humidifier di Chatime Mall Central Park ',
             'description' => 'Supply & instalasi humidifier',
             'start_date' => fake()->dateTimeBetween('-1 month', '+1 month'),
             'end_date' => date('Y-m-d', strtotime('+2 month'))
