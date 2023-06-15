@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('report_statuses_id');
             $table->string('title', 100);
             $table->string('description', 1000);
-            $table->string('position', 30);
+            $table->string('position', 50);
             $table->softDeletes();
             $table->timestamps();
             $table->foreign('project_id')

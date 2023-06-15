@@ -13,7 +13,7 @@ class ReportMediaSeeder extends Seeder
      */
     public function run(): void
     {
-        ReportMedia::factory(200)->create();
+        // ReportMedia::factory(200)->create();
         ReportMedia::create([
             'report_id' => '1',
             'attachment' => 'attachment/report_1_media_1.jpg'
