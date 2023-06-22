@@ -42,7 +42,7 @@ class UserRegisterData extends Data
         #[Required(), Max(25)]
         public string $password,
 
-        #[Required(), Image, Max(1024)] // Max 1024 Kb
+        #[Required(), Image, Max(20000)] // Max 1024 Kb
         public UploadedFile $user_image,
 
         // public ?string $ktpImage,

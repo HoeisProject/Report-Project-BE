@@ -21,7 +21,7 @@ class UserVerifyData extends Data
         #[Required(), StringType, Max(255)]
         public string $nik,
 
-        #[Required(), Image, Max(1024)] // Max 1024 Kb
+        #[Required(), Image, Max(20000)] // Max 1024 Kb
         public UploadedFile $ktp_image,
 
     ) {

@@ -18,7 +18,7 @@ class ReportMediaCreateData extends Data
         #[Required(), IntegerType]
         public int $report_id,
 
-        #[Required(), Image, Max(1024)] // Max 1024 Kb
+        #[Required(), Image, Max(20000)] // Max 1024 Kb
         public UploadedFile $attachment,
     ) {
     }
